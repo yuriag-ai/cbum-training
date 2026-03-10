@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0A0A0B">
+  <title>CBum Training Program — 6-Day Split</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ0J1bSBUcmFpbmluZyIsInNob3J0X25hbWUiOiJDQnVtIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBBMEEwQiIsInRoZW1lX2NvbG9yIjoiIzBBMEEwQiJ9">
+  <meta name="description" content="Programa de treino de 6 dias inspirado em Chris Bumstead, 6x Mr. Olympia Classic Physique. Com timer de descanso integrado.">
+  
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body, #root { min-height: 100vh; background: #0A0A0B; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
+    ::-webkit-scrollbar { display: none; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  </style>
+
+  <!-- React 18 Production -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel Standalone for JSX -->
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel" data-type="module">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+
+const workoutData = [
+  {
+    day: 1, title: "PEITO", subtitle: "Chest + Triceps Finisher", emoji: "🔥",
+    color: "#E53935", accent: "#FF8A80",
+    exercises: [
+      { name: "Pec Deck (Pré-exaustão)", sets: "3", reps: "15, 12, 10", note: "Aquecimento + ativação. Squeeze no pico da contração por 2s.", tag: "WARMUP", rest: 60 },
+      { name: "Incline Dumbbell Press", sets: "4", reps: "6-10", note: "Banco a 30-45°. Suba progressivamente de carga. Último set: drop set.", tag: "COMPOUND", rest: 120 },
+      { name: "Flat Dumbbell Press", sets: "3", reps: "8-10", note: "Excêntrica controlada (3s descendo). Foco no stretch do peitoral.", tag: "COMPOUND", rest: 90 },
+      { name: "Hammer Strength Incline Press", sets: "4", reps: "10 (GVT opcional)", note: "Grip neutro, cruzar cotovelos para contração máxima do peitoral superior.", tag: "MACHINE", rest: 90 },
+      { name: "Low Cable Fly", sets: "3", reps: "12-15", note: "Arco amplo, squeeze no topo. Lidere com os punhos, não com as mãos.", tag: "ISOLATION", rest: 60 },
+      { name: "Weighted Dips", sets: "3", reps: "8-12", note: "Inclinação à frente para ênfase no peito. Adicione carga com cinto.", tag: "COMPOUND", rest: 90 },
+      { name: "Push-ups to Failure", sets: "2", reps: "AMRAP", note: "Burnout final. Sem pausa, até não conseguir mais.", tag: "FINISHER", rest: 60 },
+      { name: "Rope Triceps Pushdown", sets: "3", reps: "12-15", note: "Extensão total no lockout. Squeeze no tríceps.", tag: "TRICEPS", rest: 60 },
+      { name: "Overhead Cable Extension", sets: "2", reps: "12-15", note: "Posição sentada, ênfase no stretch da cabeça longa do tríceps.", tag: "TRICEPS", rest: 60 },
+    ],
+  },
+  {
+    day: 2, title: "COSTAS & BÍCEPS", subtitle: "Back Thickness + Width", emoji: "💪",
+    color: "#1E88E5", accent: "#82B1FF",
+    exercises: [
+      { name: "Close-Grip Lat Pulldown (Supinada)", sets: "3", reps: "10-12", note: "Puxe até o peito superior, squeeze nas escápulas. Drop set no último set.", tag: "COMPOUND", rest: 90 },
+      { name: "Chest-Supported Dumbbell Row", sets: "3", reps: "10-12", note: "Banco inclinado. Exercício subestimado — foco em espessura do dorsal.", tag: "COMPOUND", rest: 90 },
+      { name: "T-Bar Row (com apoio)", sets: "4", reps: "8-10", note: "Posição estável permite carga pesada sem compensação. Cotovelos para trás.", tag: "COMPOUND", rest: 120 },
+      { name: "Cable Crossover Rear Delt Pull", sets: "3", reps: "12-15", note: "Cabos na altura da cabeça, arco amplo. Squeeze nos deltoides posteriores.", tag: "ISOLATION", rest: 60 },
+      { name: "Single-Arm Dumbbell Row", sets: "3", reps: "10-12", note: "Grip neutro, cotovelo rente ao corpo para enfatizar o dorsal.", tag: "COMPOUND", rest: 90 },
+      { name: "Lat Extension (Vulken Cable)", sets: "2", reps: "12-15", note: "Foco total nos dorsais. ROM completo.", tag: "ISOLATION", rest: 60 },
+      { name: "Wide-Grip Lat Pulldown", sets: "3", reps: "15-20", note: "Finalizador de alto volume. Squeeze, stretch, burnout.", tag: "FINISHER", rest: 60 },
+      { name: "Machine Preacher Curl", sets: "3", reps: "10-12", note: "Braços em posição fixa = carga máxima no bíceps. Parciais no final.", tag: "BICEPS", rest: 60 },
+      { name: "Incline DB Curl + Hammer Curl", sets: "3", reps: "8-10 + falha", note: "Mechanical drop set: rosca inclinada até falha, muda para martelo.", tag: "BICEPS", rest: 60 },
+    ],
+  },
+  {
+    day: 3, title: "QUADS & PANTURRILHA", subtitle: "Quad Dominance Day", emoji: "🦵",
+    color: "#43A047", accent: "#69F0AE",
+    exercises: [
+      { name: "Leg Extension + Adução (Superset)", sets: "3", reps: "15 cada", note: "CBum considera a adutora o segredo para aquecer antes de agachamento.", tag: "WARMUP", rest: 45 },
+      { name: "Leg Extension (Working Sets)", sets: "2", reps: "12-15", note: "2° set: drop set até falha. Pré-exaustão dos quads.", tag: "ISOLATION", rest: 60 },
+      { name: "Belt Squat", sets: "4", reps: "8-12", note: "Sem carga na coluna. Profundidade total (90°). Postura com toes forward.", tag: "COMPOUND", rest: 120 },
+      { name: "Tri-Set: Pendulum → Hack → Leg Press", sets: "3", reps: "10-12 cada", note: "BRUTAL. Pés baixos no hack para viés nos quads. Sem descanso entre exercícios.", tag: "TRI-SET", rest: 180 },
+      { name: "Smith Machine Squat (Close Stance)", sets: "3", reps: "8-10", note: "Pés à frente, tipo sissy squat. Knees over toes = quads puro.", tag: "COMPOUND", rest: 120 },
+      { name: "Sissy Squat (Bodyweight)", sets: "2", reps: "15-20", note: "Mind-muscle connection. Detalhe e definição, não apenas tamanho.", tag: "FINISHER", rest: 60 },
+      { name: "Seated Calf Raise", sets: "4", reps: "15-20", note: "Foco no soleus. Sem meias para melhor contato.", tag: "CALVES", rest: 45 },
+      { name: "Donkey Calf Raise", sets: "3", reps: "12-15", note: "Joelhos estendidos = ênfase no gastrocnêmio.", tag: "CALVES", rest: 45 },
+    ],
+  },
+  {
+    day: 4, title: "OMBROS", subtitle: "Shoulders — 3D Delts", emoji: "🎯",
+    color: "#FB8C00", accent: "#FFD180",
+    exercises: [
+      { name: "Band Dislocations + Rotações", sets: "3", reps: "15 cada", note: "Aquecimento extenso. CBum sempre começa ombros assim.", tag: "WARMUP", rest: 30 },
+      { name: "Seated DB Shoulder Press", sets: "4", reps: "6-10", note: "Suba progressivamente. 2 working sets pesados. Double progression.", tag: "COMPOUND", rest: 120 },
+      { name: "Machine Shoulder Press", sets: "3", reps: "10 + falha", note: "2 sets de 10 (30s rest), depois 3 sets até falha (15s rest). Drop set.", tag: "MACHINE", rest: 30 },
+      { name: "Seated DB Lateral Raise", sets: "3", reps: "12-15", note: "Sentado elimina compensação. Drop set no 2° set.", tag: "ISOLATION", rest: 60 },
+      { name: "Lateral Raise Machine", sets: "3", reps: "12-15", note: "Finalizar deltoide lateral. Tensão constante.", tag: "MACHINE", rest: 60 },
+      { name: "Superset: Rev. Pec Deck + Fly", sets: "3", reps: "12-15 cada", note: "Posterior + anterior. Mind-muscle connection máxima.", tag: "SUPERSET", rest: 90 },
+      { name: "Seated DB Press (Light Finisher)", sets: "3", reps: "12-15", note: "Peso leve, cadência lenta. Pump final nos deltoides.", tag: "FINISHER", rest: 60 },
+    ],
+  },
+  {
+    day: 5, title: "BRAÇOS", subtitle: "Arms — Tri-Sets & Supersets", emoji: "💥",
+    color: "#8E24AA", accent: "#EA80FC",
+    exercises: [
+      { name: "Rope Cable Pushdown (Aquec.)", sets: "3", reps: "15-20", note: "Aquecer cotovelos e tríceps. Reps controladas.", tag: "WARMUP", rest: 30 },
+      { name: "Tri-Set: Overhead → Dips → Pushdown", sets: "4", reps: "10-12 cada", note: "Sem descanso entre exercícios. 90s entre rounds.", tag: "TRI-SET", rest: 90 },
+      { name: "Cross-Body Cable Triceps Ext.", sets: "3", reps: "12/braço", note: "Cabo na altura da cabeça. Extensão horizontal unilateral.", tag: "ISOLATION", rest: 60 },
+      { name: "Tri-Set: Preacher → Spider → Cable", sets: "4", reps: "10-12 cada", note: "Mesmo padrão. 4 rounds, descanso mínimo.", tag: "TRI-SET", rest: 90 },
+      { name: "Superset: Machine + BW Dips", sets: "3", reps: "10-12 + falha", note: "Mechanical drop set para tríceps. Máquina → peso corporal.", tag: "SUPERSET", rest: 90 },
+      { name: "Standing DB Hammer Curl", sets: "3", reps: "10-12", note: "Braquial + braquiorradial. Pegada neutra, sem balanço.", tag: "BICEPS", rest: 60 },
+      { name: "V-Bar Cable Curl", sets: "2", reps: "12-15", note: "Cotovelos à frente, squeeze no topo. Finalizador.", tag: "FINISHER", rest: 60 },
+    ],
+  },
+  {
+    day: 6, title: "POSTERIORES & GLÚTEOS", subtitle: "Hamstrings, Glutes & Calves", emoji: "🔗",
+    color: "#00897B", accent: "#64FFDA",
+    exercises: [
+      { name: "Lying Leg Curl", sets: "3", reps: "12-15", note: "Pré-exaustão. Pontas dos pés para fora → posição normal.", tag: "ISOLATION", rest: 60 },
+      { name: "Tri-Set: Lying → Seated → Standing", sets: "3", reps: "10-12 cada", note: "3 ângulos diferentes para os posteriores. Brutal.", tag: "TRI-SET", rest: 120 },
+      { name: "Romanian / Conventional Deadlift", sets: "4", reps: "6-8", note: "CBum ama deadlift pesado. Suba até o máximo para 4-8 reps.", tag: "COMPOUND", rest: 150 },
+      { name: "Leg Press (pés altos)", sets: "3", reps: "10-12", note: "Pés altos na plataforma = ênfase em posteriores e glúteos.", tag: "COMPOUND", rest: 90 },
+      { name: "Hip Abduction Machine", sets: "3", reps: "15-20", note: "Glúteo médio e estabilização.", tag: "ISOLATION", rest: 45 },
+      { name: "Hyperextension", sets: "3", reps: "12-15", note: "Squeeze nos glúteos no topo. Não use momentum.", tag: "COMPOUND", rest: 60 },
+      { name: "Standing Calf Raise", sets: "4", reps: "12-15", note: "Gastrocnêmio. ROM completo — stretch total embaixo.", tag: "CALVES", rest: 45 },
+      { name: "Wide-Grip Lat Pulldown", sets: "2", reps: "12-15", note: "CBum adiciona costas leve no dia de posteriores.", tag: "BACK BONUS", rest: 60 },
+    ],
+  },
+];
+
+const principles = [
+  { icon: "📈", title: "Double Progression", desc: "Trabalhe dentro de um range de reps (ex: 8-10). Mantenha o peso até atingir o topo. Só então aumente a carga." },
+  { icon: "🧠", title: "Mind-Muscle Connection", desc: "Sinta cada rep. Visualize o músculo contraindo e alongando. Qualidade > quantidade." },
+  { icon: "⏱️", title: "Excêntrica Controlada", desc: "3 segundos na fase negativa. É onde o músculo cresce. Sem deixar o peso cair." },
+  { icon: "🔄", title: "Drop Sets & Tri-Sets", desc: "Técnicas intensificadoras frequentes. Drop sets no último set, tri-sets para volume em menos tempo." },
+  { icon: "📐", title: "Full ROM", desc: "Amplitude total de movimento. Alongar o músculo na posição mais longa." },
+  { icon: "🛡️", title: "Joint-Friendly", desc: "Belt squat > barbell squat. Sem ego lifts. Proteja as articulações." },
+];
+
+const tagColors = {
+  WARMUP: { bg: "rgba(255,235,59,0.15)", text: "#FFD600" },
+  COMPOUND: { bg: "rgba(66,165,245,0.15)", text: "#42A5F5" },
+  MACHINE: { bg: "rgba(171,71,188,0.15)", text: "#AB47BC" },
+  ISOLATION: { bg: "rgba(255,167,38,0.15)", text: "#FFA726" },
+  FINISHER: { bg: "rgba(239,83,80,0.15)", text: "#EF5350" },
+  "TRI-SET": { bg: "rgba(236,64,122,0.15)", text: "#EC407A" },
+  SUPERSET: { bg: "rgba(38,198,218,0.15)", text: "#26C6DA" },
+  TRICEPS: { bg: "rgba(126,87,194,0.15)", text: "#7E57C2" },
+  BICEPS: { bg: "rgba(102,187,106,0.15)", text: "#66BB6A" },
+  CALVES: { bg: "rgba(141,110,99,0.15)", text: "#BCAAA4" },
+  "BACK BONUS": { bg: "rgba(41,121,255,0.15)", text: "#2979FF" },
+};
+
+const PRESETS = [30, 45, 60, 90, 120, 180];
+
+function fmt(s) {
+  const sec = Math.max(0, Math.ceil(s));
+  return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
+}
+
+// ── Audio: single shared AudioContext, initialized on first user tap ──
+const audioRef = { ctx: null };
+
+function initAudio() {
+  if (!audioRef.ctx) {
+    try {
+      audioRef.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {}
+  }
+  // Resume if suspended (iOS requires this after each interaction)
+  if (audioRef.ctx && audioRef.ctx.state === "suspended") {
+    audioRef.ctx.resume().catch(() => {});
+  }
+}
+
+function beep() {
+  const ctx = audioRef.ctx;
+  if (!ctx) return;
+  try {
+    if (ctx.state === "suspended") ctx.resume();
+    const tone = (f, t, d) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = f; o.type = "sine";
+      g.gain.setValueAtTime(0.4, ctx.currentTime + t);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + d);
+      o.start(ctx.currentTime + t);
+      o.stop(ctx.currentTime + t + d);
+    };
+    tone(880, 0, 0.12); tone(880, 0.2, 0.12); tone(1174, 0.42, 0.3);
+  } catch (e) {}
+}
+
+// ── Vibration fallback for silent mode ──
+function alertUser() {
+  beep();
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200, 100, 300]);
+  }
+}
+
+// ── Timer Component (timestamp-based for background resilience) ──
+function Timer({ secs, setSecs, running, setRunning, total, setTotal, exName, setExName, color, accent }) {
+  const [open, setOpen] = useState(false);
+  const endTimeRef = useRef(null);
+  const rafRef = useRef(null);
+  const alertedRef = useRef(false);
+
+  // Timestamp-based tick: survives background throttling
+  const tick = useCallback(() => {
+    if (!endTimeRef.current) return;
+    const remaining = (endTimeRef.current - Date.now()) / 1000;
+    if (remaining <= 0) {
+      setSecs(0);
+      setRunning(false);
+      endTimeRef.current = null;
+      if (!alertedRef.current) {
+        alertedRef.current = true;
+        alertUser();
+      }
+      return;
+    }
+    setSecs(remaining);
+    rafRef.current = requestAnimationFrame(tick);
+  }, [setSecs, setRunning]);
+
+  useEffect(() => {
+    if (running && endTimeRef.current) {
+      alertedRef.current = false;
+      const loop = () => {
+        if (!endTimeRef.current) return;
+        const remaining = (endTimeRef.current - Date.now()) / 1000;
+        if (remaining <= 0) {
+          setSecs(0);
+          setRunning(false);
+          endTimeRef.current = null;
+          if (!alertedRef.current) { alertedRef.current = true; alertUser(); }
+          return;
+        }
+        setSecs(remaining);
+        rafRef.current = requestAnimationFrame(loop);
+      };
+      rafRef.current = requestAnimationFrame(loop);
+    }
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [running]);
+
+  // Also use setInterval as fallback for when rAF is paused in background
+  useEffect(() => {
+    if (!running) return;
+    const iv = setInterval(() => {
+      if (!endTimeRef.current) { clearInterval(iv); return; }
+      const remaining = (endTimeRef.current - Date.now()) / 1000;
+      if (remaining <= 0) {
+        setSecs(0); setRunning(false); endTimeRef.current = null;
+        if (!alertedRef.current) { alertedRef.current = true; alertUser(); }
+        clearInterval(iv);
+        return;
+      }
+      setSecs(remaining);
+    }, 500);
+    return () => clearInterval(iv);
+  }, [running]);
+
+  // Visibility change: recalculate on return from background
+  useEffect(() => {
+    const handleVis = () => {
+      if (document.visibilityState === "visible" && endTimeRef.current) {
+        const remaining = (endTimeRef.current - Date.now()) / 1000;
+        if (remaining <= 0) {
+          setSecs(0); setRunning(false); endTimeRef.current = null;
+          if (!alertedRef.current) { alertedRef.current = true; alertUser(); }
+        } else {
+          setSecs(remaining);
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", handleVis);
+    return () => document.removeEventListener("visibilitychange", handleVis);
+  }, []);
+
+  const go = (s) => {
+    initAudio();
+    endTimeRef.current = Date.now() + s * 1000;
+    setSecs(s); setTotal(s); setRunning(true); setExName("");
+    alertedRef.current = false;
+  };
+
+  const toggle = () => {
+    initAudio();
+    if (running) {
+      // Pause: save remaining
+      const remaining = endTimeRef.current ? (endTimeRef.current - Date.now()) / 1000 : secs;
+      endTimeRef.current = null;
+      setSecs(Math.max(0, remaining));
+      setRunning(false);
+    } else if (secs > 0) {
+      // Resume
+      endTimeRef.current = Date.now() + Math.ceil(secs) * 1000;
+      setRunning(true);
+    }
+  };
+
+  const reset = () => {
+    endTimeRef.current = null;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    setRunning(false); setSecs(0); setTotal(0); setExName("");
+  };
+
+  const adjustTime = (delta) => {
+    initAudio();
+    const newSecs = Math.max(0, Math.ceil(secs) + delta);
+    if (newSecs === 0) { reset(); return; }
+    setSecs(newSecs);
+    setTotal(t => Math.max(t, newSecs));
+    if (running) {
+      endTimeRef.current = Date.now() + newSecs * 1000;
+    } else if (newSecs > 0) {
+      endTimeRef.current = Date.now() + newSecs * 1000;
+      setRunning(true);
+    }
+  };
+
+  const displaySecs = Math.ceil(Math.max(0, secs));
+  const prog = total > 0 ? displaySecs / total : 0;
+  const C = 2 * Math.PI * 54;
+  const done = total > 0 && displaySecs === 0 && !running;
+
+  return (
+    <div style={{ position: "fixed", bottom: 16, right: 16, zIndex: 1000, fontFamily: "'Barlow Condensed', system-ui, sans-serif" }}>
+      {!open && (
+        <button onClick={() => { initAudio(); setOpen(true); }} style={{
+          width: 64, height: 64, borderRadius: "50%",
+          background: running ? `linear-gradient(135deg, ${color}, ${accent})` : done ? "linear-gradient(135deg, #4CAF50, #69F0AE)" : "linear-gradient(135deg, #222, #333)",
+          border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: running ? `0 4px 24px ${color}60` : "0 4px 20px rgba(0,0,0,0.5)",
+          transition: "all 0.3s ease", animation: done ? "pulse 1s ease infinite" : "none", position: "relative",
+          WebkitTapHighlightColor: "transparent",
+        }}>
+          {running || displaySecs > 0 ? (
+            <span style={{ fontSize: 17, fontWeight: 800, color: "#fff" }}>{fmt(displaySecs)}</span>
+          ) : (
+            <span style={{ fontSize: 24 }}>⏱</span>
+          )}
+          {running && (
+            <svg width="68" height="68" style={{ position: "absolute", top: -2, left: -2, transform: "rotate(-90deg)" }}>
+              <circle cx="34" cy="34" r="30" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
+              <circle cx="34" cy="34" r="30" fill="none" stroke="#fff" strokeWidth="3" strokeDasharray={2 * Math.PI * 30} strokeDashoffset={2 * Math.PI * 30 * (1 - prog)} strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.5s linear" }} />
+            </svg>
+          )}
+        </button>
+      )}
+
+      {open && (
+        <div style={{
+          width: "min(300px, calc(100vw - 32px))", background: "#141416",
+          border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20,
+          padding: "18px 16px 14px",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.6)", animation: "scaleIn 0.2s ease",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: "#888" }}>⏱ REST TIMER</div>
+            <button onClick={() => setOpen(false)} style={{
+              background: "rgba(255,255,255,0.06)", border: "none", borderRadius: 8,
+              color: "#888", cursor: "pointer", width: 32, height: 32,
+              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15,
+              WebkitTapHighlightColor: "transparent",
+            }}>✕</button>
+          </div>
+
+          {exName && (
+            <div style={{ fontSize: 11, color: accent, fontWeight: 600, letterSpacing: 0.5, marginBottom: 10, textAlign: "center", fontFamily: "Barlow, sans-serif", padding: "6px 8px", background: `${color}15`, borderRadius: 8 }}>
+              {exName}
+            </div>
+          )}
+
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 14, position: "relative" }}>
+            <svg width="130" height="130" style={{ transform: "rotate(-90deg)" }}>
+              <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
+              <circle cx="65" cy="65" r="54" fill="none" stroke={done ? "#4CAF50" : running ? accent : "#555"} strokeWidth="6" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={total > 0 ? C * (1 - prog) : C} style={{ transition: "stroke-dashoffset 0.5s linear, stroke 0.3s ease" }} />
+            </svg>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center" }}>
+              <div style={{ fontSize: 36, fontWeight: 900, letterSpacing: -1, color: done ? "#4CAF50" : "#fff", animation: done ? "pulse 1s ease infinite" : "none" }}>{fmt(displaySecs)}</div>
+              <div style={{ fontSize: 10, color: "#555", fontWeight: 600, letterSpacing: 1, marginTop: -2 }}>
+                {done ? "GO! 💪" : running ? "DESCANSANDO" : total > 0 ? "PAUSADO" : "SELECIONE"}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 14 }}>
+            <button onClick={toggle} disabled={total === 0 && displaySecs === 0} style={{
+              padding: "10px 26px", borderRadius: 10,
+              background: running ? "rgba(255,255,255,0.08)" : `linear-gradient(135deg, ${color}, ${accent})`,
+              border: "none", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700, letterSpacing: 1,
+              opacity: total === 0 ? 0.3 : 1, fontFamily: "Barlow Condensed, sans-serif",
+              WebkitTapHighlightColor: "transparent", minHeight: 44,
+            }}>
+              {running ? "⏸ PAUSAR" : "▶ PLAY"}
+            </button>
+            <button onClick={reset} style={{
+              padding: "10px 16px", borderRadius: 10, background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.08)", color: "#888", cursor: "pointer",
+              fontSize: 13, fontWeight: 700, letterSpacing: 1, fontFamily: "Barlow Condensed, sans-serif",
+              WebkitTapHighlightColor: "transparent", minHeight: 44,
+            }}>↺</button>
+          </div>
+
+          <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap" }}>
+            {PRESETS.map(p => (
+              <button key={p} onClick={() => go(p)} style={{
+                padding: "8px 14px", borderRadius: 8, minHeight: 40,
+                background: total === p && (running || displaySecs > 0) ? `${color}30` : "rgba(255,255,255,0.04)",
+                border: total === p && (running || displaySecs > 0) ? `1px solid ${color}60` : "1px solid rgba(255,255,255,0.08)",
+                color: total === p && (running || displaySecs > 0) ? accent : "#aaa",
+                cursor: "pointer", fontSize: 13, fontWeight: 700, fontFamily: "Barlow, sans-serif", letterSpacing: 0.5,
+                transition: "all 0.2s ease", WebkitTapHighlightColor: "transparent",
+              }}>
+                {p < 60 ? `${p}s` : `${p / 60}min`}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 10 }}>
+            <button onClick={() => adjustTime(-15)} style={{
+              padding: "6px 16px", borderRadius: 6, background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.06)", color: "#666", cursor: "pointer",
+              fontSize: 12, fontWeight: 600, fontFamily: "Barlow, sans-serif",
+              minHeight: 36, WebkitTapHighlightColor: "transparent",
+            }}>-15s</button>
+            <button onClick={() => adjustTime(15)} style={{
+              padding: "6px 16px", borderRadius: 6, background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.06)", color: "#666", cursor: "pointer",
+              fontSize: 12, fontWeight: 600, fontFamily: "Barlow, sans-serif",
+              minHeight: 36, WebkitTapHighlightColor: "transparent",
+            }}>+15s</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CBumProgram() {
+  const [activeDay, setActiveDay] = useState(0);
+  const [showPrinciples, setShowPrinciples] = useState(false);
+  const [secs, setSecs] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [exName, setExName] = useState("");
+
+  const workout = workoutData[activeDay];
+
+  // Timer start from exercise button — endTimeRef needs to be set
+  const startEx = useCallback((s, n) => {
+    initAudio();
+    setSecs(s); setTotal(s); setExName(n); setRunning(true);
+    // We need to set endTimeRef inside Timer... we'll signal via state change
+  }, []);
+
+  // Bridge: when running becomes true from parent, Timer's useEffect picks it up
+  // But endTimeRef won't be set. Fix: move start logic to Timer via a "startSignal"
+  const [startSignal, setStartSignal] = useState(null);
+
+  const triggerStart = useCallback((s, n) => {
+    initAudio();
+    setStartSignal({ secs: s, name: n, ts: Date.now() });
+  }, []);
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#0A0A0B", color: "#E8E6E3", fontFamily: "'Barlow Condensed', 'Oswald', system-ui, sans-serif", position: "relative", overflow: "hidden" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+      <div style={{ position: "fixed", top: "-30%", right: "-20%", width: "70vw", height: "70vw", background: `radial-gradient(circle, ${workout.color}12 0%, transparent 70%)`, transition: "background 0.8s ease", pointerEvents: "none", zIndex: 0 }} />
+
+      <TimerBridge
+        secs={secs} setSecs={setSecs} running={running} setRunning={setRunning}
+        total={total} setTotal={setTotal} exName={exName} setExName={setExName}
+        color={workout.color} accent={workout.accent} startSignal={startSignal}
+      />
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", padding: "24px 16px 100px" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <div style={{ fontSize: 11, letterSpacing: 6, textTransform: "uppercase", color: "#666", fontFamily: "Barlow, sans-serif", fontWeight: 500, marginBottom: 8 }}>Programa de Treino Inspirado em</div>
+          <h1 style={{ fontSize: "clamp(38px, 8vw, 72px)", fontWeight: 900, margin: 0, letterSpacing: -2, lineHeight: 0.95, background: `linear-gradient(135deg, #fff 0%, ${workout.accent} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", transition: "background 0.5s ease" }}>CHRIS BUMSTEAD</h1>
+          <div style={{ fontSize: 13, color: "#888", fontFamily: "Barlow, sans-serif", fontWeight: 400, marginTop: 6, letterSpacing: 1 }}>6x Mr. Olympia Classic Physique · 6-Day Bro Split</div>
+        </div>
+
+        <button onClick={() => setShowPrinciples(!showPrinciples)} style={{ display: "flex", alignItems: "center", gap: 8, margin: "0 auto 24px", padding: "12px 20px", background: showPrinciples ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#ccc", cursor: "pointer", fontSize: 13, fontFamily: "Barlow, sans-serif", fontWeight: 500, letterSpacing: 1, textTransform: "uppercase", transition: "all 0.3s ease", WebkitTapHighlightColor: "transparent" }}>
+          <span>⚡</span><span>Princípios do CBum</span><span style={{ transform: showPrinciples ? "rotate(180deg)" : "rotate(0)", transition: "0.3s" }}>▾</span>
+        </button>
+
+        {showPrinciples && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 28, animation: "fadeIn 0.4s ease" }}>
+            {principles.map((p, i) => (
+              <div key={i} style={{ padding: "14px 16px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10 }}>
+                <div style={{ fontSize: 20, marginBottom: 6 }}>{p.icon}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: 0.5, marginBottom: 4, color: "#fff" }}>{p.title}</div>
+                <div style={{ fontSize: 12, color: "#999", lineHeight: 1.5, fontFamily: "Barlow, sans-serif", fontWeight: 400 }}>{p.desc}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div style={{ display: "flex", gap: 6, marginBottom: 28, overflowX: "auto", padding: "4px 0", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+          {workoutData.map((w, i) => (
+            <button key={i} onClick={() => setActiveDay(i)} style={{
+              flex: "0 0 auto", minWidth: 90, padding: "12px 10px",
+              background: activeDay === i ? `linear-gradient(135deg, ${w.color}30, ${w.color}10)` : "rgba(255,255,255,0.03)",
+              border: activeDay === i ? `2px solid ${w.color}80` : "2px solid rgba(255,255,255,0.06)",
+              borderRadius: 12, cursor: "pointer", transition: "all 0.3s ease", textAlign: "center",
+              WebkitTapHighlightColor: "transparent",
+            }}>
+              <div style={{ fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: activeDay === i ? w.accent : "#666", fontWeight: 600, fontFamily: "Barlow, sans-serif" }}>DIA {w.day}</div>
+              <div style={{ fontSize: 11, fontWeight: 800, color: activeDay === i ? "#fff" : "#888", marginTop: 3, letterSpacing: 0.3 }}>{w.title}</div>
+              <div style={{ fontSize: 14, marginTop: 2 }}>{w.emoji}</div>
+            </button>
+          ))}
+        </div>
+
+        <h2 style={{ fontSize: "clamp(26px, 5vw, 44px)", fontWeight: 900, margin: "0 0 4px", letterSpacing: -1, color: "#fff" }}>
+          <span style={{ color: workout.color }}>{workout.emoji}</span> DIA {workout.day} — {workout.title}
+        </h2>
+        <div style={{ fontSize: 13, color: "#888", fontFamily: "Barlow, sans-serif", fontWeight: 400, marginBottom: 20, letterSpacing: 0.5 }}>
+          {workout.subtitle} · {workout.exercises.length} exercícios · Toque <span style={{ color: workout.accent }}>⏱</span> para descanso
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {workout.exercises.map((ex, i) => {
+            const tc = tagColors[ex.tag] || { bg: "rgba(255,255,255,0.08)", text: "#aaa" };
+            return (
+              <div key={`${activeDay}-${i}`} style={{
+                padding: "12px 14px", background: "rgba(255,255,255,0.025)",
+                border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12,
+                borderLeft: `3px solid ${workout.color}60`, transition: "all 0.2s ease",
+                animation: `slideIn 0.3s ease ${i * 0.04}s both`,
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: "#555", fontFamily: "Barlow Condensed, sans-serif" }}>{String(i + 1).padStart(2, "0")}</span>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: "#E8E6E3", letterSpacing: 0.2 }}>{ex.name}</span>
+                      <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: 1.2, padding: "2px 6px", borderRadius: 4, background: tc.bg, color: tc.text, textTransform: "uppercase", fontFamily: "Barlow, sans-serif" }}>{ex.tag}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: "#777", fontFamily: "Barlow, sans-serif", fontWeight: 400, lineHeight: 1.5, paddingLeft: 24 }}>{ex.note}</div>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
+                    <div style={{ textAlign: "center" }}>
+                      <div style={{ fontSize: 8, color: "#555", letterSpacing: 1, fontWeight: 600, fontFamily: "Barlow, sans-serif" }}>SETS</div>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: workout.accent }}>{ex.sets}</div>
+                    </div>
+                    <div style={{ width: 1, height: 22, background: "rgba(255,255,255,0.08)" }} />
+                    <div style={{ textAlign: "center", minWidth: 36 }}>
+                      <div style={{ fontSize: 8, color: "#555", letterSpacing: 1, fontWeight: 600, fontFamily: "Barlow, sans-serif" }}>REPS</div>
+                      <div style={{ fontSize: 11, fontWeight: 600, color: "#ccc", fontFamily: "Barlow, sans-serif" }}>{ex.reps}</div>
+                    </div>
+                    <button onClick={() => triggerStart(ex.rest, ex.name)} style={{
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                      background: "rgba(255,255,255,0.04)", border: `1px solid ${workout.color}30`,
+                      borderRadius: 8, padding: "6px 8px", cursor: "pointer", transition: "all 0.2s ease",
+                      minWidth: 44, minHeight: 44, WebkitTapHighlightColor: "transparent",
+                    }}>
+                      <div style={{ fontSize: 14, lineHeight: 1 }}>⏱</div>
+                      <div style={{ fontSize: 9, color: workout.accent, fontWeight: 700, fontFamily: "Barlow, sans-serif", letterSpacing: 0.5 }}>{ex.rest}s</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ marginTop: 24, padding: "14px 16px", background: `linear-gradient(135deg, ${workout.color}10, transparent)`, border: `1px solid ${workout.color}25`, borderRadius: 12, display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 12 }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 10, color: "#666", letterSpacing: 2, fontWeight: 600, fontFamily: "Barlow, sans-serif" }}>EXERCÍCIOS</div>
+            <div style={{ fontSize: 26, fontWeight: 900, color: workout.accent }}>{workout.exercises.length}</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 10, color: "#666", letterSpacing: 2, fontWeight: 600, fontFamily: "Barlow, sans-serif" }}>TOTAL SETS</div>
+            <div style={{ fontSize: 26, fontWeight: 900, color: workout.accent }}>{workout.exercises.reduce((a, e) => a + parseInt(e.sets), 0)}</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 10, color: "#666", letterSpacing: 2, fontWeight: 600, fontFamily: "Barlow, sans-serif" }}>TEMPO EST.</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#ccc", marginTop: 4, fontFamily: "Barlow, sans-serif" }}>60-90 min</div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 20, padding: "12px 16px", background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.08)", borderRadius: 10, fontSize: 12, color: "#666", fontFamily: "Barlow, sans-serif", fontWeight: 400, lineHeight: 1.6, textAlign: "center" }}>
+          <strong style={{ color: "#888" }}>DIA 7 — REST DAY</strong> · Recuperação ativa. 7-9h de sono. Proteína alta.
+          <br />Off-season: ~5.000 kcal/dia · Prep: ~2.500 kcal/dia
+        </div>
+
+        <div style={{ marginTop: 28, textAlign: "center", fontSize: 11, color: "#444", fontFamily: "Barlow, sans-serif", fontWeight: 400, lineHeight: 1.8 }}>
+          Baseado nos treinos públicos de Chris Bumstead (YouTube, STNDRD, entrevistas)
+          <br />Double progression · Full ROM · Tri-sets · Drop sets
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { display: none; }
+      `}</style>
+    </div>
+  );
+}
+
+// Bridge component that connects parent state with Timer's internal endTimeRef
+function TimerBridge({ secs, setSecs, running, setRunning, total, setTotal, exName, setExName, color, accent, startSignal }) {
+  const [internalSecs, setInternalSecs] = useState(secs);
+  const [internalRunning, setInternalRunning] = useState(running);
+  const [internalTotal, setInternalTotal] = useState(total);
+  const [internalExName, setInternalExName] = useState(exName);
+  const endTimeRef = useRef(null);
+
+  // Handle start signal from exercise buttons
+  useEffect(() => {
+    if (startSignal) {
+      endTimeRef.current = Date.now() + startSignal.secs * 1000;
+      setInternalSecs(startSignal.secs);
+      setInternalTotal(startSignal.secs);
+      setInternalExName(startSignal.name);
+      setInternalRunning(true);
+    }
+  }, [startSignal]);
+
+  return (
+    <TimerCore
+      endTimeRef={endTimeRef}
+      secs={internalSecs} setSecs={setInternalSecs}
+      running={internalRunning} setRunning={setInternalRunning}
+      total={internalTotal} setTotal={setInternalTotal}
+      exName={internalExName} setExName={setInternalExName}
+      color={color} accent={accent}
+    />
+  );
+}
+
+function TimerCore({ endTimeRef, secs, setSecs, running, setRunning, total, setTotal, exName, setExName, color, accent }) {
+  const [open, setOpen] = useState(false);
+  const rafRef = useRef(null);
+  const alertedRef = useRef(false);
+
+  const checkTime = useCallback(() => {
+    if (!endTimeRef.current) return;
+    const remaining = (endTimeRef.current - Date.now()) / 1000;
+    if (remaining <= 0) {
+      setSecs(0); setRunning(false); endTimeRef.current = null;
+      if (!alertedRef.current) { alertedRef.current = true; alertUser(); }
+      return;
+    }
+    setSecs(remaining);
+    rafRef.current = requestAnimationFrame(checkTime);
+  }, []);
+
+  useEffect(() => {
+    if (running && endTimeRef.current) {
+      alertedRef.current = false;
+      rafRef.current = requestAnimationFrame(checkTime);
+    }
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [running, checkTime]);
+
+  // Fallback interval for background
+  useEffect(() => {
+    if (!running) return;
+    const iv = setInterval(() => {
+      if (!endTimeRef.current) { clearInterval(iv); return; }
+      const remaining = (endTimeRef.current - Date.now()) / 1000;
+      if (remaining <= 0) {
+        setSecs(0); setRunning(false); endTimeRef.current = null;
+        if (!alertedRef.current) { alertedRef.current = true; alertUser(); }
+        clearInterval(iv);
+      } else { setSecs(remaining); }
+    }, 500);
+    return () => clearInterval(iv);
+  }, [running]);
+
+  // Visibility change handler
+  useEffect(() => {
+    const h = () => {
+      if (document.visibilityState === "visible" && endTimeRef.current) {
+        const r = (endTimeRef.current - Date.now()) / 1000;
+        if (r <= 0) {
+          setSecs(0); setRunning(false); endTimeRef.current = null;
+          if (!alertedRef.current) { alertedRef.current = true; alertUser(); }
+        } else { setSecs(r); }
+      }
+    };
+    document.addEventListener("visibilitychange", h);
+    return () => document.removeEventListener("visibilitychange", h);
+  }, []);
+
+  const go = (s) => {
+    initAudio(); alertedRef.current = false;
+    endTimeRef.current = Date.now() + s * 1000;
+    setSecs(s); setTotal(s); setRunning(true); setExName("");
+  };
+
+  const toggle = () => {
+    initAudio();
+    if (running) {
+      const remaining = endTimeRef.current ? (endTimeRef.current - Date.now()) / 1000 : secs;
+      endTimeRef.current = null;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      setSecs(Math.max(0, remaining)); setRunning(false);
+    } else if (secs > 0) {
+      alertedRef.current = false;
+      endTimeRef.current = Date.now() + Math.ceil(secs) * 1000;
+      setRunning(true);
+    }
+  };
+
+  const reset = () => {
+    endTimeRef.current = null;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    setRunning(false); setSecs(0); setTotal(0); setExName("");
+  };
+
+  const adjustTime = (delta) => {
+    initAudio();
+    const newSecs = Math.max(0, Math.ceil(secs) + delta);
+    if (newSecs === 0) { reset(); return; }
+    setSecs(newSecs); setTotal(t => Math.max(t, newSecs));
+    alertedRef.current = false;
+    endTimeRef.current = Date.now() + newSecs * 1000;
+    if (!running) setRunning(true);
+  };
+
+  const d = Math.ceil(Math.max(0, secs));
+  const prog = total > 0 ? d / total : 0;
+  const C = 2 * Math.PI * 54;
+  const done = total > 0 && d === 0 && !running;
+
+  return (
+    <div style={{ position: "fixed", bottom: 16, right: 16, zIndex: 1000, fontFamily: "'Barlow Condensed', system-ui, sans-serif" }}>
+      {!open && (
+        <button onClick={() => { initAudio(); setOpen(true); }} style={{
+          width: 64, height: 64, borderRadius: "50%",
+          background: running ? `linear-gradient(135deg, ${color}, ${accent})` : done ? "linear-gradient(135deg, #4CAF50, #69F0AE)" : "linear-gradient(135deg, #222, #333)",
+          border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: running ? `0 4px 24px ${color}60` : "0 4px 20px rgba(0,0,0,0.5)",
+          transition: "all 0.3s ease", animation: done ? "pulse 1s ease infinite" : "none", position: "relative",
+        }}>
+          {running || d > 0 ? (
+            <span style={{ fontSize: 17, fontWeight: 800, color: "#fff" }}>{fmt(d)}</span>
+          ) : ( <span style={{ fontSize: 24 }}>⏱</span> )}
+          {running && (
+            <svg width="68" height="68" style={{ position: "absolute", top: -2, left: -2, transform: "rotate(-90deg)" }}>
+              <circle cx="34" cy="34" r="30" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
+              <circle cx="34" cy="34" r="30" fill="none" stroke="#fff" strokeWidth="3" strokeDasharray={2*Math.PI*30} strokeDashoffset={2*Math.PI*30*(1-prog)} strokeLinecap="round" style={{ transition: "stroke-dashoffset 0.5s linear" }} />
+            </svg>
+          )}
+        </button>
+      )}
+
+      {open && (
+        <div style={{ width: "min(300px, calc(100vw - 32px))", background: "#141416", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "18px 16px 14px", boxShadow: "0 8px 40px rgba(0,0,0,0.6)", animation: "scaleIn 0.2s ease" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: "#888" }}>⏱ REST TIMER</div>
+            <button onClick={() => setOpen(false)} style={{ background: "rgba(255,255,255,0.06)", border: "none", borderRadius: 8, color: "#888", cursor: "pointer", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15 }}>✕</button>
+          </div>
+          {exName && ( <div style={{ fontSize: 11, color: accent, fontWeight: 600, marginBottom: 10, textAlign: "center", fontFamily: "Barlow, sans-serif", padding: "6px 8px", background: `${color}15`, borderRadius: 8 }}>{exName}</div> )}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 14, position: "relative" }}>
+            <svg width="130" height="130" style={{ transform: "rotate(-90deg)" }}>
+              <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
+              <circle cx="65" cy="65" r="54" fill="none" stroke={done?"#4CAF50":running?accent:"#555"} strokeWidth="6" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={total>0?C*(1-prog):C} style={{ transition: "stroke-dashoffset 0.5s linear, stroke 0.3s ease" }} />
+            </svg>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", textAlign: "center" }}>
+              <div style={{ fontSize: 36, fontWeight: 900, letterSpacing: -1, color: done?"#4CAF50":"#fff", animation: done?"pulse 1s ease infinite":"none" }}>{fmt(d)}</div>
+              <div style={{ fontSize: 10, color: "#555", fontWeight: 600, letterSpacing: 1 }}>{done?"GO! 💪":running?"DESCANSANDO":total>0?"PAUSADO":"SELECIONE"}</div>
+            </div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 14 }}>
+            <button onClick={toggle} disabled={total===0&&d===0} style={{ padding: "10px 26px", borderRadius: 10, background: running?"rgba(255,255,255,0.08)":`linear-gradient(135deg,${color},${accent})`, border: "none", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700, letterSpacing: 1, opacity: total===0?0.3:1, fontFamily: "Barlow Condensed, sans-serif", minHeight: 44 }}>{running?"⏸ PAUSAR":"▶ PLAY"}</button>
+            <button onClick={reset} style={{ padding: "10px 16px", borderRadius: 10, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", color: "#888", cursor: "pointer", fontSize: 13, fontWeight: 700, fontFamily: "Barlow Condensed, sans-serif", minHeight: 44 }}>↺</button>
+          </div>
+          <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap" }}>
+            {PRESETS.map(p => ( <button key={p} onClick={() => go(p)} style={{ padding: "8px 14px", borderRadius: 8, minHeight: 40, background: total===p&&(running||d>0)?`${color}30`:"rgba(255,255,255,0.04)", border: total===p&&(running||d>0)?`1px solid ${color}60`:"1px solid rgba(255,255,255,0.08)", color: total===p&&(running||d>0)?accent:"#aaa", cursor: "pointer", fontSize: 13, fontWeight: 700, fontFamily: "Barlow, sans-serif", transition: "all 0.2s ease" }}>{p<60?`${p}s`:`${p/60}min`}</button> ))}
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 10 }}>
+            <button onClick={() => adjustTime(-15)} style={{ padding: "6px 16px", borderRadius: 6, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", color: "#666", cursor: "pointer", fontSize: 12, fontWeight: 600, fontFamily: "Barlow, sans-serif", minHeight: 36 }}>-15s</button>
+            <button onClick={() => adjustTime(15)} style={{ padding: "6px 16px", borderRadius: 6, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", color: "#666", cursor: "pointer", fontSize: 12, fontWeight: 600, fontFamily: "Barlow, sans-serif", minHeight: 36 }}>+15s</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+    // Mount the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(CBumProgram));
+  </script>
+</body>
+</html>
