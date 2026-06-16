@@ -16,513 +16,2809 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body, #root { min-height: 100vh; background: #0A0A0B; }
-    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
+    body { -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    ::-webkit-scrollbar{display:none}
+    input::placeholder{color:#444}
+    input:focus{border-color:#FFD600!important;background:rgba(255,215,0,0.08)!important}
   </style>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect, useRef, useCallback } = React;
+  <script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef,
+  useCallback = _React.useCallback;
 
 // ═══════════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════════
 
-const abPool = [
-  [{ name: "Cable Crunch", sets: "3", reps: "15-20", note: "Corda na polia alta. Flexione o tronco, não o quadril.", tag: "ABS", rest: 45 },{ name: "Hanging Leg Raise", sets: "3", reps: "12-15", note: "Pernas retas ou joelhos dobrados. Sem balanço.", tag: "ABS", rest: 45 }],
-  [{ name: "Ab Wheel Rollout", sets: "3", reps: "10-12", note: "Extensão controlada. Core contraído.", tag: "ABS", rest: 60 },{ name: "Decline Crunch", sets: "3", reps: "15-20", note: "Banco declinado. Sem puxar o pescoço.", tag: "ABS", rest: 45 }],
-  [{ name: "Hanging Knee Raise", sets: "3", reps: "15-20", note: "Joelhos ao peito. Pausa 1s no topo.", tag: "ABS", rest: 45 },{ name: "Plank Hold", sets: "3", reps: "45-60s", note: "Corpo reto. Glúteos e core apertados.", tag: "ABS", rest: 30 }],
-  [{ name: "Woodchop (Cable)", sets: "3", reps: "12-15/lado", note: "Polia alta para baixo. Rotação controlada.", tag: "ABS", rest: 45 },{ name: "Reverse Crunch", sets: "3", reps: "15-20", note: "Eleve o quadril do chão. Excêntrica lenta.", tag: "ABS", rest: 45 }],
-  [{ name: "Dragon Flag (Eccentric)", sets: "3", reps: "6-8", note: "Apenas fase negativa. Corpo reto descendo.", tag: "ABS", rest: 60 },{ name: "Cable Pallof Press", sets: "3", reps: "12-15/lado", note: "Anti-rotação. Estenda e segure 2s.", tag: "ABS", rest: 45 }],
-  [{ name: "Decline Sit-Up + Twist", sets: "3", reps: "12-15", note: "Suba e rotacione alternando lados.", tag: "ABS", rest: 45 },{ name: "Dead Bug", sets: "3", reps: "10-12/lado", note: "Costas grudadas no chão. Controle total.", tag: "ABS", rest: 30 }],
-];
-
-const P = [
-  { id: "alpha", name: "Programa Alpha", desc: "Original CBum — Halteres & Pesos Livres", days: [
-    { day:1, title:"PEITO", subtitle:"Chest + Triceps Finisher", emoji:"🔥", color:"#E53935", accent:"#FF8A80", exercises:[
-      {name:"Pec Deck (Pré-exaustão)",sets:"3",reps:"15, 12, 10",note:"Aquecimento + ativação. Squeeze 2s.",tag:"WARMUP",rest:60},
-      {name:"Incline Dumbbell Press",sets:"4",reps:"6-10",note:"Banco 30-45°. Progressão de carga. Drop set final.",tag:"COMPOUND",rest:120},
-      {name:"Flat Dumbbell Press",sets:"3",reps:"8-10",note:"Excêntrica 3s. Stretch do peitoral.",tag:"COMPOUND",rest:90},
-      {name:"Hammer Strength Incline",sets:"4",reps:"10",note:"Grip neutro, cruzar cotovelos.",tag:"MACHINE",rest:90},
-      {name:"Low Cable Fly",sets:"3",reps:"12-15",note:"Arco amplo, squeeze no topo.",tag:"ISOLATION",rest:60},
-      {name:"Weighted Dips",sets:"3",reps:"8-12",note:"Inclinação à frente. Carga com cinto.",tag:"COMPOUND",rest:90},
-      {name:"Push-ups to Failure",sets:"2",reps:"AMRAP",note:"Burnout final.",tag:"FINISHER",rest:60},
-      {name:"Rope Triceps Pushdown",sets:"3",reps:"12-15",note:"Extensão total no lockout.",tag:"TRICEPS",rest:60},
-      {name:"Overhead Cable Extension",sets:"2",reps:"12-15",note:"Stretch da cabeça longa.",tag:"TRICEPS",rest:60},
-    ]},
-    { day:2, title:"COSTAS & BÍCEPS", subtitle:"Thickness + Width", emoji:"💪", color:"#1E88E5", accent:"#82B1FF", exercises:[
-      {name:"Close-Grip Pulldown",sets:"3",reps:"10-12",note:"Supinada. Squeeze escápulas. Drop set final.",tag:"COMPOUND",rest:90},
-      {name:"Chest-Supported DB Row",sets:"3",reps:"10-12",note:"Banco inclinado. Espessura dorsal.",tag:"COMPOUND",rest:90},
-      {name:"T-Bar Row",sets:"4",reps:"8-10",note:"Carga pesada. Cotovelos para trás.",tag:"COMPOUND",rest:120},
-      {name:"Cable Rear Delt Pull",sets:"3",reps:"12-15",note:"Cabos altura da cabeça. Deltoides post.",tag:"ISOLATION",rest:60},
-      {name:"Single-Arm DB Row",sets:"3",reps:"10-12",note:"Grip neutro, cotovelo rente ao corpo.",tag:"COMPOUND",rest:90},
-      {name:"Wide-Grip Lat Pulldown",sets:"3",reps:"15-20",note:"Finalizador alto volume.",tag:"FINISHER",rest:60},
-      {name:"Machine Preacher Curl",sets:"3",reps:"10-12",note:"Posição fixa = carga máxima bíceps.",tag:"BICEPS",rest:60},
-      {name:"Incline Curl + Hammer",sets:"3",reps:"8-10 + falha",note:"Mechanical drop set.",tag:"BICEPS",rest:60},
-    ]},
-    { day:3, title:"QUADS & PANTURRILHA", subtitle:"Quad Dominance", emoji:"🦵", color:"#43A047", accent:"#69F0AE", exercises:[
-      {name:"Leg Extension + Adução",sets:"3",reps:"15 cada",note:"Superset aquecimento.",tag:"WARMUP",rest:45},
-      {name:"Belt Squat",sets:"4",reps:"8-12",note:"Sem carga na coluna. Profundidade 90°.",tag:"COMPOUND",rest:120},
-      {name:"Tri-Set: Pendulum → Hack → Leg Press",sets:"3",reps:"10-12 cada",note:"Sem descanso entre exercícios.",tag:"TRI-SET",rest:180},
-      {name:"Smith Squat (Close)",sets:"3",reps:"8-10",note:"Pés à frente. Knees over toes.",tag:"COMPOUND",rest:120},
-      {name:"Sissy Squat",sets:"2",reps:"15-20",note:"Mind-muscle. Detalhe e definição.",tag:"FINISHER",rest:60},
-      {name:"Seated Calf Raise",sets:"4",reps:"15-20",note:"Foco soleus.",tag:"CALVES",rest:45},
-      {name:"Donkey Calf Raise",sets:"3",reps:"12-15",note:"Gastrocnêmio.",tag:"CALVES",rest:45},
-    ]},
-    { day:4, title:"OMBROS", subtitle:"3D Delts", emoji:"🎯", color:"#FB8C00", accent:"#FFD180", exercises:[
-      {name:"Band Dislocations + Rotações",sets:"3",reps:"15 cada",note:"Aquecimento extenso.",tag:"WARMUP",rest:30},
-      {name:"Seated DB Shoulder Press",sets:"4",reps:"6-10",note:"Double progression. Sets pesados.",tag:"COMPOUND",rest:120},
-      {name:"Machine Shoulder Press",sets:"3",reps:"10 + falha",note:"Drop set no último.",tag:"MACHINE",rest:30},
-      {name:"Seated DB Lateral Raise",sets:"3",reps:"12-15",note:"Sentado elimina compensação.",tag:"ISOLATION",rest:60},
-      {name:"Lateral Raise Machine",sets:"3",reps:"12-15",note:"Tensão constante.",tag:"MACHINE",rest:60},
-      {name:"Superset: Rev Pec Deck + Fly",sets:"3",reps:"12-15 cada",note:"Posterior + anterior.",tag:"SUPERSET",rest:90},
-    ]},
-    { day:5, title:"BRAÇOS", subtitle:"Tri-Sets & Supersets", emoji:"💥", color:"#8E24AA", accent:"#EA80FC", exercises:[
-      {name:"Rope Pushdown (Aquec.)",sets:"3",reps:"15-20",note:"Aquecer cotovelos.",tag:"WARMUP",rest:30},
-      {name:"Tri-Set: Overhead → Dips → Pushdown",sets:"4",reps:"10-12 cada",note:"90s entre rounds.",tag:"TRI-SET",rest:90},
-      {name:"Cross-Body Cable Ext.",sets:"3",reps:"12/braço",note:"Extensão horizontal.",tag:"ISOLATION",rest:60},
-      {name:"Tri-Set: Preacher → Spider → Cable",sets:"4",reps:"10-12 cada",note:"4 rounds.",tag:"TRI-SET",rest:90},
-      {name:"Standing DB Hammer Curl",sets:"3",reps:"10-12",note:"Braquial + braquiorradial.",tag:"BICEPS",rest:60},
-      {name:"V-Bar Cable Curl",sets:"2",reps:"12-15",note:"Finalizador.",tag:"FINISHER",rest:60},
-    ]},
-    { day:6, title:"POSTERIORES & GLÚTEOS", subtitle:"Hamstrings & Glutes", emoji:"🔗", color:"#00897B", accent:"#64FFDA", exercises:[
-      {name:"Lying Leg Curl",sets:"3",reps:"12-15",note:"Pré-exaustão.",tag:"ISOLATION",rest:60},
-      {name:"Tri-Set: Lying → Seated → Standing",sets:"3",reps:"10-12 cada",note:"3 ângulos. Brutal.",tag:"TRI-SET",rest:120},
-      {name:"Romanian Deadlift",sets:"4",reps:"6-8",note:"Pesado. 4-8 reps.",tag:"COMPOUND",rest:150},
-      {name:"Leg Press (pés altos)",sets:"3",reps:"10-12",note:"Pés altos = posteriores + glúteos.",tag:"COMPOUND",rest:90},
-      {name:"Hip Abduction",sets:"3",reps:"15-20",note:"Glúteo médio.",tag:"ISOLATION",rest:45},
-      {name:"Hyperextension",sets:"3",reps:"12-15",note:"Squeeze glúteos no topo.",tag:"COMPOUND",rest:60},
-      {name:"Standing Calf Raise",sets:"4",reps:"12-15",note:"ROM completo.",tag:"CALVES",rest:45},
-    ]},
-  ]},
-  { id: "bravo", name: "Programa Bravo", desc: "Variação — Barras & Cabos, Mais Peso Livre", days: [
-    { day:1, title:"PEITO", subtitle:"Barbell & Cable Focus", emoji:"🔥", color:"#E53935", accent:"#FF8A80", exercises:[
-      {name:"Cable Crossover (Aquec.)",sets:"3",reps:"15",note:"Ativação.",tag:"WARMUP",rest:60},
-      {name:"Barbell Bench Press",sets:"4",reps:"6-8",note:"Compound principal. Escápulas retraídas.",tag:"COMPOUND",rest:120},
-      {name:"Incline DB Fly",sets:"3",reps:"10-12",note:"Banco 30°. Stretch máximo.",tag:"ISOLATION",rest:60},
-      {name:"Machine Chest Press",sets:"4",reps:"10-12",note:"Plate-loaded. Squeeze.",tag:"MACHINE",rest:90},
-      {name:"Decline Cable Fly",sets:"3",reps:"12-15",note:"Cabos altos cruzando. Peitoral inferior.",tag:"ISOLATION",rest:60},
-      {name:"Dips (Bodyweight)",sets:"3",reps:"AMRAP",note:"Burnout.",tag:"FINISHER",rest:60},
-      {name:"Close-Grip Bench Press",sets:"3",reps:"8-10",note:"Tríceps pesado.",tag:"TRICEPS",rest:90},
-      {name:"Skull Crushers (EZ)",sets:"3",reps:"10-12",note:"Desça atrás da cabeça.",tag:"TRICEPS",rest:60},
-    ]},
-    { day:2, title:"COSTAS & BÍCEPS", subtitle:"Barbell Rows & Pulls", emoji:"💪", color:"#1E88E5", accent:"#82B1FF", exercises:[
-      {name:"Straight-Arm Pulldown",sets:"3",reps:"15",note:"Ativação dorsais.",tag:"WARMUP",rest:60},
-      {name:"Barbell Row (Overhand)",sets:"4",reps:"6-8",note:"Pesado. 45° inclinação.",tag:"COMPOUND",rest:120},
-      {name:"Meadows Row",sets:"3",reps:"10-12/lado",note:"Landmine unilateral.",tag:"COMPOUND",rest:90},
-      {name:"Seated Cable Row (V-Bar)",sets:"3",reps:"10-12",note:"Squeeze escápulas. Excêntrica 3s.",tag:"COMPOUND",rest:90},
-      {name:"Reverse Grip Pulldown",sets:"3",reps:"12-15",note:"Supinada. Lat inferior.",tag:"ISOLATION",rest:60},
-      {name:"Pull-ups",sets:"3",reps:"AMRAP",note:"Até falha.",tag:"FINISHER",rest:90},
-      {name:"EZ-Bar Curl",sets:"3",reps:"8-10",note:"Estrito.",tag:"BICEPS",rest:60},
-      {name:"Concentration Curl",sets:"3",reps:"10-12/braço",note:"Pico de contração.",tag:"BICEPS",rest:45},
-    ]},
-    { day:3, title:"QUADS & PANTURRILHA", subtitle:"Hack & Lunges", emoji:"🦵", color:"#43A047", accent:"#69F0AE", exercises:[
-      {name:"Goblet Squat (Aquec.)",sets:"3",reps:"15",note:"Mobilidade + ativação.",tag:"WARMUP",rest:45},
-      {name:"Hack Squat",sets:"4",reps:"8-10",note:"Pés baixos. Quads puro.",tag:"COMPOUND",rest:120},
-      {name:"Front Squat (Smith)",sets:"3",reps:"8-10",note:"Tronco vertical.",tag:"COMPOUND",rest:120},
-      {name:"Walking Lunges (DB)",sets:"3",reps:"12/perna",note:"Passos longos.",tag:"COMPOUND",rest:90},
-      {name:"Leg Extension (Heavy)",sets:"4",reps:"10-12",note:"Drop set último.",tag:"ISOLATION",rest:60},
-      {name:"Bulgarian Split Squat",sets:"3",reps:"10/perna",note:"Unilateral.",tag:"COMPOUND",rest:90},
-      {name:"Standing Calf Raise",sets:"4",reps:"12-15",note:"Pausa embaixo 2s.",tag:"CALVES",rest:45},
-      {name:"Leg Press Calf Raise",sets:"3",reps:"15-20",note:"Gastrocnêmio.",tag:"CALVES",rest:45},
-    ]},
-    { day:4, title:"OMBROS", subtitle:"Standing Press & Cables", emoji:"🎯", color:"#FB8C00", accent:"#FFD180", exercises:[
-      {name:"Face Pulls (Aquec.)",sets:"3",reps:"15-20",note:"Rotação externa.",tag:"WARMUP",rest:30},
-      {name:"Standing Barbell Press",sets:"4",reps:"6-8",note:"Overhead estrito. Core ativado.",tag:"COMPOUND",rest:120},
-      {name:"Arnold Press",sets:"3",reps:"10-12",note:"Rotação completa.",tag:"COMPOUND",rest:90},
-      {name:"Cable Lateral Raise",sets:"4",reps:"12-15",note:"Behind-the-back. Tensão constante.",tag:"ISOLATION",rest:60},
-      {name:"Machine Reverse Fly",sets:"3",reps:"12-15",note:"Posterior. Squeeze 2s.",tag:"MACHINE",rest:60},
-      {name:"Upright Row (Cable)",sets:"3",reps:"10-12",note:"Cotovelos acima dos punhos.",tag:"COMPOUND",rest:60},
-    ]},
-    { day:5, title:"BRAÇOS", subtitle:"EZ-Bar & Isolamento", emoji:"💥", color:"#8E24AA", accent:"#EA80FC", exercises:[
-      {name:"EZ-Bar Skull Crusher",sets:"4",reps:"10-12",note:"Atrás da cabeça. Cabeça longa.",tag:"TRICEPS",rest:90},
-      {name:"Dip Machine",sets:"3",reps:"10-12",note:"Controlado.",tag:"TRICEPS",rest:60},
-      {name:"Diamond Push-ups",sets:"3",reps:"AMRAP",note:"Burnout tríceps.",tag:"FINISHER",rest:60},
-      {name:"Barbell Curl",sets:"4",reps:"8-10",note:"Estrito. Sem balanço.",tag:"BICEPS",rest:90},
-      {name:"Incline Hammer Curl",sets:"3",reps:"10-12",note:"Banco 60°. Braquial.",tag:"BICEPS",rest:60},
-      {name:"Bayesian Cable Curl",sets:"3",reps:"12-15/braço",note:"Stretch máximo.",tag:"BICEPS",rest:60},
-      {name:"Reverse EZ Curl",sets:"2",reps:"12-15",note:"Antebraço.",tag:"FINISHER",rest:45},
-    ]},
-    { day:6, title:"POSTERIORES & GLÚTEOS", subtitle:"Hip Hinge Focus", emoji:"🔗", color:"#00897B", accent:"#64FFDA", exercises:[
-      {name:"Seated Leg Curl",sets:"3",reps:"12-15",note:"Pré-exaustão. Excêntrica 3s.",tag:"ISOLATION",rest:60},
-      {name:"Good Mornings",sets:"3",reps:"10-12",note:"Hip hinge. Leve a moderado.",tag:"COMPOUND",rest:90},
-      {name:"Sumo Deadlift",sets:"4",reps:"6-8",note:"Posteriores + glúteos + adutores.",tag:"COMPOUND",rest:150},
-      {name:"Hip Thrust (Barbell)",sets:"4",reps:"10-12",note:"Squeeze 2s no topo.",tag:"COMPOUND",rest:90},
-      {name:"Cable Pull-Through",sets:"3",reps:"12-15",note:"Hip hinge com cabo.",tag:"ISOLATION",rest:60},
-      {name:"Glute Kickback",sets:"3",reps:"12-15/perna",note:"Unilateral. Squeeze no topo.",tag:"ISOLATION",rest:45},
-      {name:"Standing Calf Raise",sets:"4",reps:"12-15",note:"ROM completo.",tag:"CALVES",rest:45},
-    ]},
-  ]},
-  { id: "charlie", name: "Programa Charlie", desc: "Machine-Heavy & Joint-Friendly", days: [
-    { day:1, title:"PEITO", subtitle:"Máquinas & Cabos", emoji:"🔥", color:"#E53935", accent:"#FF8A80", exercises:[
-      {name:"Machine Chest Fly (Aquec.)",sets:"3",reps:"15",note:"Ativação leve.",tag:"WARMUP",rest:60},
-      {name:"Smith Incline Press",sets:"4",reps:"8-10",note:"Banco 30°. Sem estresse ombros.",tag:"MACHINE",rest:120},
-      {name:"Chest Press Machine",sets:"4",reps:"10-12",note:"Plate-loaded. Squeeze.",tag:"MACHINE",rest:90},
-      {name:"Cable Fly (Low-to-High)",sets:"3",reps:"12-15",note:"Peitoral superior.",tag:"ISOLATION",rest:60},
-      {name:"Pec Deck",sets:"3",reps:"12-15",note:"Squeeze 2s. Drop set final.",tag:"MACHINE",rest:60},
-      {name:"Machine Dip",sets:"3",reps:"10-12",note:"Peito inferior.",tag:"MACHINE",rest:60},
-      {name:"Cable Pushdown (V-Bar)",sets:"3",reps:"12-15",note:"Tríceps. Extensão completa.",tag:"TRICEPS",rest:60},
-      {name:"Overhead Cable Ext.",sets:"3",reps:"12-15",note:"Cabeça longa.",tag:"TRICEPS",rest:60},
-    ]},
-    { day:2, title:"COSTAS & BÍCEPS", subtitle:"Pulldowns & Rows Guiados", emoji:"💪", color:"#1E88E5", accent:"#82B1FF", exercises:[
-      {name:"Lat Pulldown (Neutro)",sets:"3",reps:"12-15",note:"Ativação.",tag:"WARMUP",rest:60},
-      {name:"Machine Row (Plate-Loaded)",sets:"4",reps:"8-10",note:"Chest-supported. Espessura.",tag:"MACHINE",rest:120},
-      {name:"Seated Cable Row (Wide)",sets:"3",reps:"10-12",note:"Barra larga.",tag:"COMPOUND",rest:90},
-      {name:"Pullover Machine",sets:"3",reps:"12-15",note:"Isolamento dorsais. ROM total.",tag:"MACHINE",rest:60},
-      {name:"Face Pull (Cable)",sets:"3",reps:"15-20",note:"Posterior + rotadores.",tag:"ISOLATION",rest:45},
-      {name:"Lat Pulldown (Wide)",sets:"3",reps:"15-20",note:"Finalizador.",tag:"FINISHER",rest:60},
-      {name:"Cable Curl (EZ-Bar)",sets:"3",reps:"10-12",note:"Tensão constante.",tag:"BICEPS",rest:60},
-      {name:"Hammer Curl (Cable)",sets:"3",reps:"12-15",note:"Corda. Braquial.",tag:"BICEPS",rest:45},
-    ]},
-    { day:3, title:"QUADS & PANTURRILHA", subtitle:"Smith & Pendulum", emoji:"🦵", color:"#43A047", accent:"#69F0AE", exercises:[
-      {name:"Leg Extension (Leve)",sets:"3",reps:"20",note:"Aquecimento joelhos.",tag:"WARMUP",rest:30},
-      {name:"Leg Press (Pés Baixos)",sets:"4",reps:"10-12",note:"Pés baixos = quads.",tag:"MACHINE",rest:120},
-      {name:"Pendulum Squat",sets:"4",reps:"8-10",note:"Sem stress coluna. Quads puro.",tag:"MACHINE",rest:120},
-      {name:"Smith Split Squat",sets:"3",reps:"10/perna",note:"Estável. VMO.",tag:"MACHINE",rest:90},
-      {name:"Leg Extension (Pesado)",sets:"3",reps:"10-12",note:"Drop set final.",tag:"ISOLATION",rest:60},
-      {name:"Wall Sit",sets:"3",reps:"45-60s",note:"Isométrico.",tag:"FINISHER",rest:60},
-      {name:"Calf Raise Machine",sets:"4",reps:"15-20",note:"Pausa embaixo 2s.",tag:"CALVES",rest:45},
-      {name:"Seated Calf Raise",sets:"3",reps:"15-20",note:"Soleus.",tag:"CALVES",rest:45},
-    ]},
-    { day:4, title:"OMBROS", subtitle:"Cabos & Máquinas", emoji:"🎯", color:"#FB8C00", accent:"#FFD180", exercises:[
-      {name:"Cable External Rotation",sets:"3",reps:"15/lado",note:"Manguito. Obrigatório.",tag:"WARMUP",rest:30},
-      {name:"Machine Shoulder Press",sets:"4",reps:"8-10",note:"Sem estresse articular.",tag:"MACHINE",rest:120},
-      {name:"Cable Lateral Raise",sets:"4",reps:"12-15",note:"Behind-the-back.",tag:"ISOLATION",rest:60},
-      {name:"Rear Delt Cable Fly",sets:"3",reps:"15-20",note:"Cabos cruzados.",tag:"ISOLATION",rest:45},
-      {name:"DB Shrugs",sets:"3",reps:"12-15",note:"Pausa no topo 2s.",tag:"ISOLATION",rest:60},
-      {name:"Lu Raise (DB)",sets:"3",reps:"10-12",note:"Lateral + press. Queima.",tag:"COMPOUND",rest:60},
-    ]},
-    { day:5, title:"BRAÇOS", subtitle:"Cabos & Máquinas Only", emoji:"💥", color:"#8E24AA", accent:"#EA80FC", exercises:[
-      {name:"Overhead Cable Ext. (Rope)",sets:"4",reps:"12-15",note:"Cabeça longa.",tag:"TRICEPS",rest:60},
-      {name:"Triceps Kickback (Cable)",sets:"3",reps:"12-15/braço",note:"Squeeze no pico.",tag:"TRICEPS",rest:45},
-      {name:"Cable Pushdown (Bar)",sets:"3",reps:"10-12",note:"Lateral + medial.",tag:"TRICEPS",rest:60},
-      {name:"Machine Preacher Curl",sets:"4",reps:"10-12",note:"Isolamento máximo.",tag:"BICEPS",rest:60},
-      {name:"Spider Curl (EZ)",sets:"3",reps:"10-12",note:"Pico de contração.",tag:"BICEPS",rest:60},
-      {name:"Superset: Pushdown + Curl",sets:"3",reps:"12 cada",note:"Antagonista. Pump.",tag:"SUPERSET",rest:90},
-      {name:"Wrist Curl + Reverse",sets:"2",reps:"15-20 cada",note:"Antebraços.",tag:"FINISHER",rest:30},
-    ]},
-    { day:6, title:"POSTERIORES & GLÚTEOS", subtitle:"Curls & Machines", emoji:"🔗", color:"#00897B", accent:"#64FFDA", exercises:[
-      {name:"Lying Leg Curl",sets:"3",reps:"15",note:"Aquecimento. Excêntrica lenta.",tag:"WARMUP",rest:45},
-      {name:"Seated Leg Curl",sets:"4",reps:"10-12",note:"Pesado. Drop set final.",tag:"MACHINE",rest:60},
-      {name:"Stiff-Leg DL (Dumbbells)",sets:"4",reps:"8-10",note:"Halteres. Menos stress lombar.",tag:"COMPOUND",rest:120},
-      {name:"Reverse Hyperextension",sets:"3",reps:"12-15",note:"Glúteos + posteriores.",tag:"MACHINE",rest:60},
-      {name:"Hip Abduction Machine",sets:"3",reps:"15-20",note:"Glúteo médio.",tag:"MACHINE",rest:45},
-      {name:"Glute Bridge (Barra)",sets:"3",reps:"12-15",note:"Squeeze 3s no topo.",tag:"COMPOUND",rest:60},
-      {name:"Standing Calf Raise",sets:"4",reps:"12-15",note:"ROM completo.",tag:"CALVES",rest:45},
-    ]},
-  ]},
-];
-
-const TC = { WARMUP:{bg:"rgba(255,235,59,0.15)",text:"#FFD600"}, COMPOUND:{bg:"rgba(66,165,245,0.15)",text:"#42A5F5"}, MACHINE:{bg:"rgba(171,71,188,0.15)",text:"#AB47BC"}, ISOLATION:{bg:"rgba(255,167,38,0.15)",text:"#FFA726"}, FINISHER:{bg:"rgba(239,83,80,0.15)",text:"#EF5350"}, "TRI-SET":{bg:"rgba(236,64,122,0.15)",text:"#EC407A"}, SUPERSET:{bg:"rgba(38,198,218,0.15)",text:"#26C6DA"}, TRICEPS:{bg:"rgba(126,87,194,0.15)",text:"#7E57C2"}, BICEPS:{bg:"rgba(102,187,106,0.15)",text:"#66BB6A"}, CALVES:{bg:"rgba(141,110,99,0.15)",text:"#BCAAA4"}, ABS:{bg:"rgba(255,183,77,0.15)",text:"#FFB74D"} };
-const PRESETS = [30,45,60,90,120,180];
-const fmt = s => { const x = Math.max(0, Math.ceil(s)); return `${Math.floor(x/60)}:${String(x%60).padStart(2,"0")}`; };
+var abPool = [[{
+  name: "Cable Crunch",
+  sets: "3",
+  reps: "15-20",
+  note: "Corda na polia alta. Flexione o tronco, não o quadril.",
+  tag: "ABS",
+  rest: 45
+}, {
+  name: "Hanging Leg Raise",
+  sets: "3",
+  reps: "12-15",
+  note: "Pernas retas ou joelhos dobrados. Sem balanço.",
+  tag: "ABS",
+  rest: 45
+}], [{
+  name: "Ab Wheel Rollout",
+  sets: "3",
+  reps: "10-12",
+  note: "Extensão controlada. Core contraído.",
+  tag: "ABS",
+  rest: 60
+}, {
+  name: "Decline Crunch",
+  sets: "3",
+  reps: "15-20",
+  note: "Banco declinado. Sem puxar o pescoço.",
+  tag: "ABS",
+  rest: 45
+}], [{
+  name: "Hanging Knee Raise",
+  sets: "3",
+  reps: "15-20",
+  note: "Joelhos ao peito. Pausa 1s no topo.",
+  tag: "ABS",
+  rest: 45
+}, {
+  name: "Plank Hold",
+  sets: "3",
+  reps: "45-60s",
+  note: "Corpo reto. Glúteos e core apertados.",
+  tag: "ABS",
+  rest: 30
+}], [{
+  name: "Woodchop (Cable)",
+  sets: "3",
+  reps: "12-15/lado",
+  note: "Polia alta para baixo. Rotação controlada.",
+  tag: "ABS",
+  rest: 45
+}, {
+  name: "Reverse Crunch",
+  sets: "3",
+  reps: "15-20",
+  note: "Eleve o quadril do chão. Excêntrica lenta.",
+  tag: "ABS",
+  rest: 45
+}], [{
+  name: "Dragon Flag (Eccentric)",
+  sets: "3",
+  reps: "6-8",
+  note: "Apenas fase negativa. Corpo reto descendo.",
+  tag: "ABS",
+  rest: 60
+}, {
+  name: "Cable Pallof Press",
+  sets: "3",
+  reps: "12-15/lado",
+  note: "Anti-rotação. Estenda e segure 2s.",
+  tag: "ABS",
+  rest: 45
+}], [{
+  name: "Decline Sit-Up + Twist",
+  sets: "3",
+  reps: "12-15",
+  note: "Suba e rotacione alternando lados.",
+  tag: "ABS",
+  rest: 45
+}, {
+  name: "Dead Bug",
+  sets: "3",
+  reps: "10-12/lado",
+  note: "Costas grudadas no chão. Controle total.",
+  tag: "ABS",
+  rest: 30
+}]];
+var P = [{
+  id: "alpha",
+  name: "Programa Alpha",
+  desc: "Original CBum — Halteres & Pesos Livres",
+  days: [{
+    day: 1,
+    title: "PEITO",
+    subtitle: "Chest + Triceps Finisher",
+    emoji: "🔥",
+    color: "#E53935",
+    accent: "#FF8A80",
+    exercises: [{
+      name: "Pec Deck (Pré-exaustão)",
+      sets: "3",
+      reps: "15, 12, 10",
+      note: "Aquecimento + ativação. Squeeze 2s.",
+      tag: "WARMUP",
+      rest: 60
+    }, {
+      name: "Incline Dumbbell Press",
+      sets: "4",
+      reps: "6-10",
+      note: "Banco 30-45°. Progressão de carga. Drop set final.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Flat Dumbbell Press",
+      sets: "3",
+      reps: "8-10",
+      note: "Excêntrica 3s. Stretch do peitoral.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Hammer Strength Incline",
+      sets: "4",
+      reps: "10",
+      note: "Grip neutro, cruzar cotovelos.",
+      tag: "MACHINE",
+      rest: 90
+    }, {
+      name: "Low Cable Fly",
+      sets: "3",
+      reps: "12-15",
+      note: "Arco amplo, squeeze no topo.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Weighted Dips",
+      sets: "3",
+      reps: "8-12",
+      note: "Inclinação à frente. Carga com cinto.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Push-ups to Failure",
+      sets: "2",
+      reps: "AMRAP",
+      note: "Burnout final.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Rope Triceps Pushdown",
+      sets: "3",
+      reps: "12-15",
+      note: "Extensão total no lockout.",
+      tag: "TRICEPS",
+      rest: 60
+    }, {
+      name: "Overhead Cable Extension",
+      sets: "2",
+      reps: "12-15",
+      note: "Stretch da cabeça longa.",
+      tag: "TRICEPS",
+      rest: 60
+    }]
+  }, {
+    day: 2,
+    title: "COSTAS & BÍCEPS",
+    subtitle: "Thickness + Width",
+    emoji: "💪",
+    color: "#1E88E5",
+    accent: "#82B1FF",
+    exercises: [{
+      name: "Close-Grip Pulldown",
+      sets: "3",
+      reps: "10-12",
+      note: "Supinada. Squeeze escápulas. Drop set final.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Chest-Supported DB Row",
+      sets: "3",
+      reps: "10-12",
+      note: "Banco inclinado. Espessura dorsal.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "T-Bar Row",
+      sets: "4",
+      reps: "8-10",
+      note: "Carga pesada. Cotovelos para trás.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Cable Rear Delt Pull",
+      sets: "3",
+      reps: "12-15",
+      note: "Cabos altura da cabeça. Deltoides post.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Single-Arm DB Row",
+      sets: "3",
+      reps: "10-12",
+      note: "Grip neutro, cotovelo rente ao corpo.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Wide-Grip Lat Pulldown",
+      sets: "3",
+      reps: "15-20",
+      note: "Finalizador alto volume.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Machine Preacher Curl",
+      sets: "3",
+      reps: "10-12",
+      note: "Posição fixa = carga máxima bíceps.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Incline Curl + Hammer",
+      sets: "3",
+      reps: "8-10 + falha",
+      note: "Mechanical drop set.",
+      tag: "BICEPS",
+      rest: 60
+    }]
+  }, {
+    day: 3,
+    title: "QUADS & PANTURRILHA",
+    subtitle: "Quad Dominance",
+    emoji: "🦵",
+    color: "#43A047",
+    accent: "#69F0AE",
+    exercises: [{
+      name: "Leg Extension + Adução",
+      sets: "3",
+      reps: "15 cada",
+      note: "Superset aquecimento.",
+      tag: "WARMUP",
+      rest: 45
+    }, {
+      name: "Belt Squat",
+      sets: "4",
+      reps: "8-12",
+      note: "Sem carga na coluna. Profundidade 90°.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Tri-Set: Pendulum → Hack → Leg Press",
+      sets: "3",
+      reps: "10-12 cada",
+      note: "Sem descanso entre exercícios.",
+      tag: "TRI-SET",
+      rest: 180
+    }, {
+      name: "Smith Squat (Close)",
+      sets: "3",
+      reps: "8-10",
+      note: "Pés à frente. Knees over toes.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Sissy Squat",
+      sets: "2",
+      reps: "15-20",
+      note: "Mind-muscle. Detalhe e definição.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Seated Calf Raise",
+      sets: "4",
+      reps: "15-20",
+      note: "Foco soleus.",
+      tag: "CALVES",
+      rest: 45
+    }, {
+      name: "Donkey Calf Raise",
+      sets: "3",
+      reps: "12-15",
+      note: "Gastrocnêmio.",
+      tag: "CALVES",
+      rest: 45
+    }]
+  }, {
+    day: 4,
+    title: "OMBROS",
+    subtitle: "3D Delts",
+    emoji: "🎯",
+    color: "#FB8C00",
+    accent: "#FFD180",
+    exercises: [{
+      name: "Band Dislocations + Rotações",
+      sets: "3",
+      reps: "15 cada",
+      note: "Aquecimento extenso.",
+      tag: "WARMUP",
+      rest: 30
+    }, {
+      name: "Seated DB Shoulder Press",
+      sets: "4",
+      reps: "6-10",
+      note: "Double progression. Sets pesados.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Machine Shoulder Press",
+      sets: "3",
+      reps: "10 + falha",
+      note: "Drop set no último.",
+      tag: "MACHINE",
+      rest: 30
+    }, {
+      name: "Seated DB Lateral Raise",
+      sets: "3",
+      reps: "12-15",
+      note: "Sentado elimina compensação.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Lateral Raise Machine",
+      sets: "3",
+      reps: "12-15",
+      note: "Tensão constante.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Superset: Rev Pec Deck + Fly",
+      sets: "3",
+      reps: "12-15 cada",
+      note: "Posterior + anterior.",
+      tag: "SUPERSET",
+      rest: 90
+    }]
+  }, {
+    day: 5,
+    title: "BRAÇOS",
+    subtitle: "Tri-Sets & Supersets",
+    emoji: "💥",
+    color: "#8E24AA",
+    accent: "#EA80FC",
+    exercises: [{
+      name: "Rope Pushdown (Aquec.)",
+      sets: "3",
+      reps: "15-20",
+      note: "Aquecer cotovelos.",
+      tag: "WARMUP",
+      rest: 30
+    }, {
+      name: "Tri-Set: Overhead → Dips → Pushdown",
+      sets: "4",
+      reps: "10-12 cada",
+      note: "90s entre rounds.",
+      tag: "TRI-SET",
+      rest: 90
+    }, {
+      name: "Cross-Body Cable Ext.",
+      sets: "3",
+      reps: "12/braço",
+      note: "Extensão horizontal.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Tri-Set: Preacher → Spider → Cable",
+      sets: "4",
+      reps: "10-12 cada",
+      note: "4 rounds.",
+      tag: "TRI-SET",
+      rest: 90
+    }, {
+      name: "Standing DB Hammer Curl",
+      sets: "3",
+      reps: "10-12",
+      note: "Braquial + braquiorradial.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "V-Bar Cable Curl",
+      sets: "2",
+      reps: "12-15",
+      note: "Finalizador.",
+      tag: "FINISHER",
+      rest: 60
+    }]
+  }, {
+    day: 6,
+    title: "POSTERIORES & GLÚTEOS",
+    subtitle: "Hamstrings & Glutes",
+    emoji: "🔗",
+    color: "#00897B",
+    accent: "#64FFDA",
+    exercises: [{
+      name: "Lying Leg Curl",
+      sets: "3",
+      reps: "12-15",
+      note: "Pré-exaustão.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Tri-Set: Lying → Seated → Standing",
+      sets: "3",
+      reps: "10-12 cada",
+      note: "3 ângulos. Brutal.",
+      tag: "TRI-SET",
+      rest: 120
+    }, {
+      name: "Romanian Deadlift",
+      sets: "4",
+      reps: "6-8",
+      note: "Pesado. 4-8 reps.",
+      tag: "COMPOUND",
+      rest: 150
+    }, {
+      name: "Leg Press (pés altos)",
+      sets: "3",
+      reps: "10-12",
+      note: "Pés altos = posteriores + glúteos.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Hip Abduction",
+      sets: "3",
+      reps: "15-20",
+      note: "Glúteo médio.",
+      tag: "ISOLATION",
+      rest: 45
+    }, {
+      name: "Hyperextension",
+      sets: "3",
+      reps: "12-15",
+      note: "Squeeze glúteos no topo.",
+      tag: "COMPOUND",
+      rest: 60
+    }, {
+      name: "Standing Calf Raise",
+      sets: "4",
+      reps: "12-15",
+      note: "ROM completo.",
+      tag: "CALVES",
+      rest: 45
+    }]
+  }]
+}, {
+  id: "bravo",
+  name: "Programa Bravo",
+  desc: "Variação — Barras & Cabos, Mais Peso Livre",
+  days: [{
+    day: 1,
+    title: "PEITO",
+    subtitle: "Barbell & Cable Focus",
+    emoji: "🔥",
+    color: "#E53935",
+    accent: "#FF8A80",
+    exercises: [{
+      name: "Cable Crossover (Aquec.)",
+      sets: "3",
+      reps: "15",
+      note: "Ativação.",
+      tag: "WARMUP",
+      rest: 60
+    }, {
+      name: "Barbell Bench Press",
+      sets: "4",
+      reps: "6-8",
+      note: "Compound principal. Escápulas retraídas.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Incline DB Fly",
+      sets: "3",
+      reps: "10-12",
+      note: "Banco 30°. Stretch máximo.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Machine Chest Press",
+      sets: "4",
+      reps: "10-12",
+      note: "Plate-loaded. Squeeze.",
+      tag: "MACHINE",
+      rest: 90
+    }, {
+      name: "Decline Cable Fly",
+      sets: "3",
+      reps: "12-15",
+      note: "Cabos altos cruzando. Peitoral inferior.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Dips (Bodyweight)",
+      sets: "3",
+      reps: "AMRAP",
+      note: "Burnout.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Close-Grip Bench Press",
+      sets: "3",
+      reps: "8-10",
+      note: "Tríceps pesado.",
+      tag: "TRICEPS",
+      rest: 90
+    }, {
+      name: "Skull Crushers (EZ)",
+      sets: "3",
+      reps: "10-12",
+      note: "Desça atrás da cabeça.",
+      tag: "TRICEPS",
+      rest: 60
+    }]
+  }, {
+    day: 2,
+    title: "COSTAS & BÍCEPS",
+    subtitle: "Barbell Rows & Pulls",
+    emoji: "💪",
+    color: "#1E88E5",
+    accent: "#82B1FF",
+    exercises: [{
+      name: "Straight-Arm Pulldown",
+      sets: "3",
+      reps: "15",
+      note: "Ativação dorsais.",
+      tag: "WARMUP",
+      rest: 60
+    }, {
+      name: "Barbell Row (Overhand)",
+      sets: "4",
+      reps: "6-8",
+      note: "Pesado. 45° inclinação.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Meadows Row",
+      sets: "3",
+      reps: "10-12/lado",
+      note: "Landmine unilateral.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Seated Cable Row (V-Bar)",
+      sets: "3",
+      reps: "10-12",
+      note: "Squeeze escápulas. Excêntrica 3s.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Reverse Grip Pulldown",
+      sets: "3",
+      reps: "12-15",
+      note: "Supinada. Lat inferior.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Pull-ups",
+      sets: "3",
+      reps: "AMRAP",
+      note: "Até falha.",
+      tag: "FINISHER",
+      rest: 90
+    }, {
+      name: "EZ-Bar Curl",
+      sets: "3",
+      reps: "8-10",
+      note: "Estrito.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Concentration Curl",
+      sets: "3",
+      reps: "10-12/braço",
+      note: "Pico de contração.",
+      tag: "BICEPS",
+      rest: 45
+    }]
+  }, {
+    day: 3,
+    title: "QUADS & PANTURRILHA",
+    subtitle: "Hack & Lunges",
+    emoji: "🦵",
+    color: "#43A047",
+    accent: "#69F0AE",
+    exercises: [{
+      name: "Goblet Squat (Aquec.)",
+      sets: "3",
+      reps: "15",
+      note: "Mobilidade + ativação.",
+      tag: "WARMUP",
+      rest: 45
+    }, {
+      name: "Hack Squat",
+      sets: "4",
+      reps: "8-10",
+      note: "Pés baixos. Quads puro.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Front Squat (Smith)",
+      sets: "3",
+      reps: "8-10",
+      note: "Tronco vertical.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Walking Lunges (DB)",
+      sets: "3",
+      reps: "12/perna",
+      note: "Passos longos.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Leg Extension (Heavy)",
+      sets: "4",
+      reps: "10-12",
+      note: "Drop set último.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Bulgarian Split Squat",
+      sets: "3",
+      reps: "10/perna",
+      note: "Unilateral.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Standing Calf Raise",
+      sets: "4",
+      reps: "12-15",
+      note: "Pausa embaixo 2s.",
+      tag: "CALVES",
+      rest: 45
+    }, {
+      name: "Leg Press Calf Raise",
+      sets: "3",
+      reps: "15-20",
+      note: "Gastrocnêmio.",
+      tag: "CALVES",
+      rest: 45
+    }]
+  }, {
+    day: 4,
+    title: "OMBROS",
+    subtitle: "Standing Press & Cables",
+    emoji: "🎯",
+    color: "#FB8C00",
+    accent: "#FFD180",
+    exercises: [{
+      name: "Face Pulls (Aquec.)",
+      sets: "3",
+      reps: "15-20",
+      note: "Rotação externa.",
+      tag: "WARMUP",
+      rest: 30
+    }, {
+      name: "Standing Barbell Press",
+      sets: "4",
+      reps: "6-8",
+      note: "Overhead estrito. Core ativado.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Arnold Press",
+      sets: "3",
+      reps: "10-12",
+      note: "Rotação completa.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Cable Lateral Raise",
+      sets: "4",
+      reps: "12-15",
+      note: "Behind-the-back. Tensão constante.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Machine Reverse Fly",
+      sets: "3",
+      reps: "12-15",
+      note: "Posterior. Squeeze 2s.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Upright Row (Cable)",
+      sets: "3",
+      reps: "10-12",
+      note: "Cotovelos acima dos punhos.",
+      tag: "COMPOUND",
+      rest: 60
+    }]
+  }, {
+    day: 5,
+    title: "BRAÇOS",
+    subtitle: "EZ-Bar & Isolamento",
+    emoji: "💥",
+    color: "#8E24AA",
+    accent: "#EA80FC",
+    exercises: [{
+      name: "EZ-Bar Skull Crusher",
+      sets: "4",
+      reps: "10-12",
+      note: "Atrás da cabeça. Cabeça longa.",
+      tag: "TRICEPS",
+      rest: 90
+    }, {
+      name: "Dip Machine",
+      sets: "3",
+      reps: "10-12",
+      note: "Controlado.",
+      tag: "TRICEPS",
+      rest: 60
+    }, {
+      name: "Diamond Push-ups",
+      sets: "3",
+      reps: "AMRAP",
+      note: "Burnout tríceps.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Barbell Curl",
+      sets: "4",
+      reps: "8-10",
+      note: "Estrito. Sem balanço.",
+      tag: "BICEPS",
+      rest: 90
+    }, {
+      name: "Incline Hammer Curl",
+      sets: "3",
+      reps: "10-12",
+      note: "Banco 60°. Braquial.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Bayesian Cable Curl",
+      sets: "3",
+      reps: "12-15/braço",
+      note: "Stretch máximo.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Reverse EZ Curl",
+      sets: "2",
+      reps: "12-15",
+      note: "Antebraço.",
+      tag: "FINISHER",
+      rest: 45
+    }]
+  }, {
+    day: 6,
+    title: "POSTERIORES & GLÚTEOS",
+    subtitle: "Hip Hinge Focus",
+    emoji: "🔗",
+    color: "#00897B",
+    accent: "#64FFDA",
+    exercises: [{
+      name: "Seated Leg Curl",
+      sets: "3",
+      reps: "12-15",
+      note: "Pré-exaustão. Excêntrica 3s.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Good Mornings",
+      sets: "3",
+      reps: "10-12",
+      note: "Hip hinge. Leve a moderado.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Sumo Deadlift",
+      sets: "4",
+      reps: "6-8",
+      note: "Posteriores + glúteos + adutores.",
+      tag: "COMPOUND",
+      rest: 150
+    }, {
+      name: "Hip Thrust (Barbell)",
+      sets: "4",
+      reps: "10-12",
+      note: "Squeeze 2s no topo.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Cable Pull-Through",
+      sets: "3",
+      reps: "12-15",
+      note: "Hip hinge com cabo.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Glute Kickback",
+      sets: "3",
+      reps: "12-15/perna",
+      note: "Unilateral. Squeeze no topo.",
+      tag: "ISOLATION",
+      rest: 45
+    }, {
+      name: "Standing Calf Raise",
+      sets: "4",
+      reps: "12-15",
+      note: "ROM completo.",
+      tag: "CALVES",
+      rest: 45
+    }]
+  }]
+}, {
+  id: "charlie",
+  name: "Programa Charlie",
+  desc: "Machine-Heavy & Joint-Friendly",
+  days: [{
+    day: 1,
+    title: "PEITO",
+    subtitle: "Máquinas & Cabos",
+    emoji: "🔥",
+    color: "#E53935",
+    accent: "#FF8A80",
+    exercises: [{
+      name: "Machine Chest Fly (Aquec.)",
+      sets: "3",
+      reps: "15",
+      note: "Ativação leve.",
+      tag: "WARMUP",
+      rest: 60
+    }, {
+      name: "Smith Incline Press",
+      sets: "4",
+      reps: "8-10",
+      note: "Banco 30°. Sem estresse ombros.",
+      tag: "MACHINE",
+      rest: 120
+    }, {
+      name: "Chest Press Machine",
+      sets: "4",
+      reps: "10-12",
+      note: "Plate-loaded. Squeeze.",
+      tag: "MACHINE",
+      rest: 90
+    }, {
+      name: "Cable Fly (Low-to-High)",
+      sets: "3",
+      reps: "12-15",
+      note: "Peitoral superior.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Pec Deck",
+      sets: "3",
+      reps: "12-15",
+      note: "Squeeze 2s. Drop set final.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Machine Dip",
+      sets: "3",
+      reps: "10-12",
+      note: "Peito inferior.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Cable Pushdown (V-Bar)",
+      sets: "3",
+      reps: "12-15",
+      note: "Tríceps. Extensão completa.",
+      tag: "TRICEPS",
+      rest: 60
+    }, {
+      name: "Overhead Cable Ext.",
+      sets: "3",
+      reps: "12-15",
+      note: "Cabeça longa.",
+      tag: "TRICEPS",
+      rest: 60
+    }]
+  }, {
+    day: 2,
+    title: "COSTAS & BÍCEPS",
+    subtitle: "Pulldowns & Rows Guiados",
+    emoji: "💪",
+    color: "#1E88E5",
+    accent: "#82B1FF",
+    exercises: [{
+      name: "Lat Pulldown (Neutro)",
+      sets: "3",
+      reps: "12-15",
+      note: "Ativação.",
+      tag: "WARMUP",
+      rest: 60
+    }, {
+      name: "Machine Row (Plate-Loaded)",
+      sets: "4",
+      reps: "8-10",
+      note: "Chest-supported. Espessura.",
+      tag: "MACHINE",
+      rest: 120
+    }, {
+      name: "Seated Cable Row (Wide)",
+      sets: "3",
+      reps: "10-12",
+      note: "Barra larga.",
+      tag: "COMPOUND",
+      rest: 90
+    }, {
+      name: "Pullover Machine",
+      sets: "3",
+      reps: "12-15",
+      note: "Isolamento dorsais. ROM total.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Face Pull (Cable)",
+      sets: "3",
+      reps: "15-20",
+      note: "Posterior + rotadores.",
+      tag: "ISOLATION",
+      rest: 45
+    }, {
+      name: "Lat Pulldown (Wide)",
+      sets: "3",
+      reps: "15-20",
+      note: "Finalizador.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Cable Curl (EZ-Bar)",
+      sets: "3",
+      reps: "10-12",
+      note: "Tensão constante.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Hammer Curl (Cable)",
+      sets: "3",
+      reps: "12-15",
+      note: "Corda. Braquial.",
+      tag: "BICEPS",
+      rest: 45
+    }]
+  }, {
+    day: 3,
+    title: "QUADS & PANTURRILHA",
+    subtitle: "Smith & Pendulum",
+    emoji: "🦵",
+    color: "#43A047",
+    accent: "#69F0AE",
+    exercises: [{
+      name: "Leg Extension (Leve)",
+      sets: "3",
+      reps: "20",
+      note: "Aquecimento joelhos.",
+      tag: "WARMUP",
+      rest: 30
+    }, {
+      name: "Leg Press (Pés Baixos)",
+      sets: "4",
+      reps: "10-12",
+      note: "Pés baixos = quads.",
+      tag: "MACHINE",
+      rest: 120
+    }, {
+      name: "Pendulum Squat",
+      sets: "4",
+      reps: "8-10",
+      note: "Sem stress coluna. Quads puro.",
+      tag: "MACHINE",
+      rest: 120
+    }, {
+      name: "Smith Split Squat",
+      sets: "3",
+      reps: "10/perna",
+      note: "Estável. VMO.",
+      tag: "MACHINE",
+      rest: 90
+    }, {
+      name: "Leg Extension (Pesado)",
+      sets: "3",
+      reps: "10-12",
+      note: "Drop set final.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Wall Sit",
+      sets: "3",
+      reps: "45-60s",
+      note: "Isométrico.",
+      tag: "FINISHER",
+      rest: 60
+    }, {
+      name: "Calf Raise Machine",
+      sets: "4",
+      reps: "15-20",
+      note: "Pausa embaixo 2s.",
+      tag: "CALVES",
+      rest: 45
+    }, {
+      name: "Seated Calf Raise",
+      sets: "3",
+      reps: "15-20",
+      note: "Soleus.",
+      tag: "CALVES",
+      rest: 45
+    }]
+  }, {
+    day: 4,
+    title: "OMBROS",
+    subtitle: "Cabos & Máquinas",
+    emoji: "🎯",
+    color: "#FB8C00",
+    accent: "#FFD180",
+    exercises: [{
+      name: "Cable External Rotation",
+      sets: "3",
+      reps: "15/lado",
+      note: "Manguito. Obrigatório.",
+      tag: "WARMUP",
+      rest: 30
+    }, {
+      name: "Machine Shoulder Press",
+      sets: "4",
+      reps: "8-10",
+      note: "Sem estresse articular.",
+      tag: "MACHINE",
+      rest: 120
+    }, {
+      name: "Cable Lateral Raise",
+      sets: "4",
+      reps: "12-15",
+      note: "Behind-the-back.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Rear Delt Cable Fly",
+      sets: "3",
+      reps: "15-20",
+      note: "Cabos cruzados.",
+      tag: "ISOLATION",
+      rest: 45
+    }, {
+      name: "DB Shrugs",
+      sets: "3",
+      reps: "12-15",
+      note: "Pausa no topo 2s.",
+      tag: "ISOLATION",
+      rest: 60
+    }, {
+      name: "Lu Raise (DB)",
+      sets: "3",
+      reps: "10-12",
+      note: "Lateral + press. Queima.",
+      tag: "COMPOUND",
+      rest: 60
+    }]
+  }, {
+    day: 5,
+    title: "BRAÇOS",
+    subtitle: "Cabos & Máquinas Only",
+    emoji: "💥",
+    color: "#8E24AA",
+    accent: "#EA80FC",
+    exercises: [{
+      name: "Overhead Cable Ext. (Rope)",
+      sets: "4",
+      reps: "12-15",
+      note: "Cabeça longa.",
+      tag: "TRICEPS",
+      rest: 60
+    }, {
+      name: "Triceps Kickback (Cable)",
+      sets: "3",
+      reps: "12-15/braço",
+      note: "Squeeze no pico.",
+      tag: "TRICEPS",
+      rest: 45
+    }, {
+      name: "Cable Pushdown (Bar)",
+      sets: "3",
+      reps: "10-12",
+      note: "Lateral + medial.",
+      tag: "TRICEPS",
+      rest: 60
+    }, {
+      name: "Machine Preacher Curl",
+      sets: "4",
+      reps: "10-12",
+      note: "Isolamento máximo.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Spider Curl (EZ)",
+      sets: "3",
+      reps: "10-12",
+      note: "Pico de contração.",
+      tag: "BICEPS",
+      rest: 60
+    }, {
+      name: "Superset: Pushdown + Curl",
+      sets: "3",
+      reps: "12 cada",
+      note: "Antagonista. Pump.",
+      tag: "SUPERSET",
+      rest: 90
+    }, {
+      name: "Wrist Curl + Reverse",
+      sets: "2",
+      reps: "15-20 cada",
+      note: "Antebraços.",
+      tag: "FINISHER",
+      rest: 30
+    }]
+  }, {
+    day: 6,
+    title: "POSTERIORES & GLÚTEOS",
+    subtitle: "Curls & Machines",
+    emoji: "🔗",
+    color: "#00897B",
+    accent: "#64FFDA",
+    exercises: [{
+      name: "Lying Leg Curl",
+      sets: "3",
+      reps: "15",
+      note: "Aquecimento. Excêntrica lenta.",
+      tag: "WARMUP",
+      rest: 45
+    }, {
+      name: "Seated Leg Curl",
+      sets: "4",
+      reps: "10-12",
+      note: "Pesado. Drop set final.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Stiff-Leg DL (Dumbbells)",
+      sets: "4",
+      reps: "8-10",
+      note: "Halteres. Menos stress lombar.",
+      tag: "COMPOUND",
+      rest: 120
+    }, {
+      name: "Reverse Hyperextension",
+      sets: "3",
+      reps: "12-15",
+      note: "Glúteos + posteriores.",
+      tag: "MACHINE",
+      rest: 60
+    }, {
+      name: "Hip Abduction Machine",
+      sets: "3",
+      reps: "15-20",
+      note: "Glúteo médio.",
+      tag: "MACHINE",
+      rest: 45
+    }, {
+      name: "Glute Bridge (Barra)",
+      sets: "3",
+      reps: "12-15",
+      note: "Squeeze 3s no topo.",
+      tag: "COMPOUND",
+      rest: 60
+    }, {
+      name: "Standing Calf Raise",
+      sets: "4",
+      reps: "12-15",
+      note: "ROM completo.",
+      tag: "CALVES",
+      rest: 45
+    }]
+  }]
+}];
+var TC = {
+  WARMUP: {
+    bg: "rgba(255,235,59,0.15)",
+    text: "#FFD600"
+  },
+  COMPOUND: {
+    bg: "rgba(66,165,245,0.15)",
+    text: "#42A5F5"
+  },
+  MACHINE: {
+    bg: "rgba(171,71,188,0.15)",
+    text: "#AB47BC"
+  },
+  ISOLATION: {
+    bg: "rgba(255,167,38,0.15)",
+    text: "#FFA726"
+  },
+  FINISHER: {
+    bg: "rgba(239,83,80,0.15)",
+    text: "#EF5350"
+  },
+  "TRI-SET": {
+    bg: "rgba(236,64,122,0.15)",
+    text: "#EC407A"
+  },
+  SUPERSET: {
+    bg: "rgba(38,198,218,0.15)",
+    text: "#26C6DA"
+  },
+  TRICEPS: {
+    bg: "rgba(126,87,194,0.15)",
+    text: "#7E57C2"
+  },
+  BICEPS: {
+    bg: "rgba(102,187,106,0.15)",
+    text: "#66BB6A"
+  },
+  CALVES: {
+    bg: "rgba(141,110,99,0.15)",
+    text: "#BCAAA4"
+  },
+  ABS: {
+    bg: "rgba(255,183,77,0.15)",
+    text: "#FFB74D"
+  }
+};
+var PRESETS = [30, 45, 60, 90, 120, 180];
+var fmt = function fmt(s) {
+  var x = Math.max(0, Math.ceil(s));
+  return "".concat(Math.floor(x / 60), ":").concat(String(x % 60).padStart(2, "0"));
+};
 
 // ═══════════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════════
-async function ld(k, fb) { try { const r = localStorage.getItem(k); return r !== null ? JSON.parse(r) : fb; } catch(e) { return fb; } }
-async function sv(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) { console.error(e); } }
-
-// ═══════════════════════════════════════════════
+function ld(_x, _x2) {
+  return _ld.apply(this, arguments);
+}
+function _ld() {
+  _ld = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(k, fb) {
+    var r, _t7;
+    return _regenerator().w(function (_context5) {
+      while (1) switch (_context5.p = _context5.n) {
+        case 0:
+          _context5.p = 0;
+          r = localStorage.getItem(k);
+          return _context5.a(2, r !== null ? JSON.parse(r) : fb);
+        case 1:
+          _context5.p = 1;
+          _t7 = _context5.v;
+          return _context5.a(2, fb);
+      }
+    }, _callee5, null, [[0, 1]]);
+  }));
+  return _ld.apply(this, arguments);
+}
+function sv(_x3, _x4) {
+  return _sv.apply(this, arguments);
+} // ═══════════════════════════════════════════════
 // AUDIO & WAKE LOCK
 // ═══════════════════════════════════════════════
-const aRef = { ctx: null };
-function initA() { if (!aRef.ctx) try { aRef.ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {} if ((aRef.ctx && aRef.ctx.state) === "suspended") aRef.ctx.resume().catch(()=>{}); }
-function beep() { const c = aRef.ctx; if (!c) return; try { if (c.state==="suspended") c.resume(); const t=(f,s,d)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type="sine";g.gain.setValueAtTime(0.4,c.currentTime+s);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+s+d);o.start(c.currentTime+s);o.stop(c.currentTime+s+d);}; t(880,0,0.12);t(880,0.2,0.12);t(1174,0.42,0.3); } catch(e) {} }
-function alertU() { beep(); if (navigator.vibrate) navigator.vibrate([200,100,200,100,300]); }
-
+function _sv() {
+  _sv = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(k, v) {
+    return _regenerator().w(function (_context6) {
+      while (1) switch (_context6.n) {
+        case 0:
+          try {
+            localStorage.setItem(k, JSON.stringify(v));
+          } catch (e) {
+            console.error(e);
+          }
+        case 1:
+          return _context6.a(2);
+      }
+    }, _callee6);
+  }));
+  return _sv.apply(this, arguments);
+}
+var aRef = {
+  ctx: null
+};
+function initA() {
+  if (!aRef.ctx) try {
+    aRef.ctx = new (window.AudioContext || window.webkitAudioContext)();
+  } catch (e) {}
+  if ((aRef.ctx && aRef.ctx.state) === "suspended") aRef.ctx.resume().catch(function () {});
+}
+function beep() {
+  var c = aRef.ctx;
+  if (!c) return;
+  try {
+    if (c.state === "suspended") c.resume();
+    var t = function t(f, s, d) {
+      var o = c.createOscillator(),
+        g = c.createGain();
+      o.connect(g);
+      g.connect(c.destination);
+      o.frequency.value = f;
+      o.type = "sine";
+      g.gain.setValueAtTime(0.4, c.currentTime + s);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + s + d);
+      o.start(c.currentTime + s);
+      o.stop(c.currentTime + s + d);
+    };
+    t(880, 0, 0.12);
+    t(880, 0.2, 0.12);
+    t(1174, 0.42, 0.3);
+  } catch (e) {}
+}
+function alertU() {
+  beep();
+  if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 300]);
+}
 function useWakeLock() {
-  const [active, setActive] = useState(false);
-  const lockRef = useRef(null);
-  const toggle = async () => {
-    if (active && lockRef.current) { try { await lockRef.current.release(); } catch(e) {} lockRef.current = null; setActive(false); return; }
-    try { if ("wakeLock" in navigator) { lockRef.current = await navigator.wakeLock.request("screen"); lockRef.current.addEventListener("release", () => { setActive(false); lockRef.current = null; }); setActive(true); } } catch(e) {}
-  };
-  useEffect(() => { const h = async () => { if (document.visibilityState === "visible" && active && !lockRef.current) { try { lockRef.current = await navigator.wakeLock.request("screen"); } catch(e) {} } }; document.addEventListener("visibilitychange", h); return () => document.removeEventListener("visibilitychange", h); }, [active]);
+  var _useState = useState(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    active = _useState2[0],
+    setActive = _useState2[1];
+  var lockRef = useRef(null);
+  var toggle = /*#__PURE__*/function () {
+    var _toggle = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      var _t, _t2;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            if (!(active && lockRef.current)) {
+              _context.n = 5;
+              break;
+            }
+            _context.p = 1;
+            _context.n = 2;
+            return lockRef.current.release();
+          case 2:
+            _context.n = 4;
+            break;
+          case 3:
+            _context.p = 3;
+            _t = _context.v;
+          case 4:
+            lockRef.current = null;
+            setActive(false);
+            return _context.a(2);
+          case 5:
+            _context.p = 5;
+            if (!("wakeLock" in navigator)) {
+              _context.n = 7;
+              break;
+            }
+            _context.n = 6;
+            return navigator.wakeLock.request("screen");
+          case 6:
+            lockRef.current = _context.v;
+            lockRef.current.addEventListener("release", function () {
+              setActive(false);
+              lockRef.current = null;
+            });
+            setActive(true);
+          case 7:
+            _context.n = 9;
+            break;
+          case 8:
+            _context.p = 8;
+            _t2 = _context.v;
+          case 9:
+            return _context.a(2);
+        }
+      }, _callee, null, [[5, 8], [1, 3]]);
+    }));
+    function toggle() {
+      return _toggle.apply(this, arguments);
+    }
+    return toggle;
+  }();
+  useEffect(function () {
+    var h = /*#__PURE__*/function () {
+      var _h = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var _t3;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.p = _context2.n) {
+            case 0:
+              if (!(document.visibilityState === "visible" && active && !lockRef.current)) {
+                _context2.n = 4;
+                break;
+              }
+              _context2.p = 1;
+              _context2.n = 2;
+              return navigator.wakeLock.request("screen");
+            case 2:
+              lockRef.current = _context2.v;
+              _context2.n = 4;
+              break;
+            case 3:
+              _context2.p = 3;
+              _t3 = _context2.v;
+            case 4:
+              return _context2.a(2);
+          }
+        }, _callee2, null, [[1, 3]]);
+      }));
+      function h() {
+        return _h.apply(this, arguments);
+      }
+      return h;
+    }();
+    document.addEventListener("visibilitychange", h);
+    return function () {
+      return document.removeEventListener("visibilitychange", h);
+    };
+  }, [active]);
   return [active, toggle];
 }
 
 // ═══════════════════════════════════════════════
 // TIMER FAB
 // ═══════════════════════════════════════════════
-function TimerFAB({ startSignal, color, accent }) {
-  const [open,setOpen]=useState(false);const[secs,setSecs]=useState(0);const[run,setRun]=useState(false);const[total,setTotal]=useState(0);const[exN,setExN]=useState("");
-  const eRef=useRef(null);const rRef=useRef(null);const aR=useRef(false);
-  useEffect(()=>{if(startSignal){eRef.current=Date.now()+startSignal.secs*1000;setSecs(startSignal.secs);setTotal(startSignal.secs);setExN(startSignal.name);setRun(true);aR.current=false;}},[startSignal]);
-  const tick=useCallback(()=>{if(!eRef.current)return;const r=(eRef.current-Date.now())/1000;if(r<=0){setSecs(0);setRun(false);eRef.current=null;if(!aR.current){aR.current=true;alertU();}return;}setSecs(r);rRef.current=requestAnimationFrame(tick);},[]);
-  useEffect(()=>{if(run&&eRef.current){aR.current=false;rRef.current=requestAnimationFrame(tick);}return()=>{if(rRef.current)cancelAnimationFrame(rRef.current);};},[run,tick]);
-  useEffect(()=>{if(!run)return;const iv=setInterval(()=>{if(!eRef.current){clearInterval(iv);return;}const r=(eRef.current-Date.now())/1000;if(r<=0){setSecs(0);setRun(false);eRef.current=null;if(!aR.current){aR.current=true;alertU();}clearInterval(iv);}else setSecs(r);},500);return()=>clearInterval(iv);},[run]);
-  useEffect(()=>{const h=()=>{if(document.visibilityState==="visible"&&eRef.current){const r=(eRef.current-Date.now())/1000;if(r<=0){setSecs(0);setRun(false);eRef.current=null;if(!aR.current){aR.current=true;alertU();}}else setSecs(r);}};document.addEventListener("visibilitychange",h);return()=>document.removeEventListener("visibilitychange",h);},[]);
-  const go=s=>{initA();aR.current=false;eRef.current=Date.now()+s*1000;setSecs(s);setTotal(s);setRun(true);setExN("");};
-  const tog=()=>{initA();if(run){const r=eRef.current?(eRef.current-Date.now())/1000:secs;eRef.current=null;setSecs(Math.max(0,r));setRun(false);}else if(secs>0){aR.current=false;eRef.current=Date.now()+Math.ceil(secs)*1000;setRun(true);}};
-  const rst=()=>{eRef.current=null;if(rRef.current)cancelAnimationFrame(rRef.current);setRun(false);setSecs(0);setTotal(0);setExN("");};
-  const adj=d=>{initA();const n=Math.max(0,Math.ceil(secs)+d);if(n===0){rst();return;}setSecs(n);setTotal(t=>Math.max(t,n));aR.current=false;eRef.current=Date.now()+n*1000;if(!run)setRun(true);};
-  const d=Math.ceil(Math.max(0,secs)), prog=total>0?d/total:0, C=2*Math.PI*54, done=total>0&&d===0&&!run;
-  const B={WebkitTapHighlightColor:"transparent",cursor:"pointer",border:"none",fontFamily:"Barlow Condensed,sans-serif"};
-  return(
-    <div style={{position:"fixed",bottom:16,right:16,zIndex:1000,fontFamily:"'Barlow Condensed',sans-serif"}}>
-      {!open&&<button onClick={()=>{initA();setOpen(true);}} style={{...B,width:64,height:64,borderRadius:"50%",background:run?`linear-gradient(135deg,${color},${accent})`:done?"linear-gradient(135deg,#4CAF50,#69F0AE)":"linear-gradient(135deg,#222,#333)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:run?`0 4px 24px ${color}60`:"0 4px 20px rgba(0,0,0,0.5)",animation:done?"pulse 1s ease infinite":"none",position:"relative"}}>{run||d>0?<span style={{fontSize:17,fontWeight:800,color:"#fff"}}>{fmt(d)}</span>:<span style={{fontSize:24}}>⏱</span>}{run&&<svg width="68" height="68" style={{position:"absolute",top:-2,left:-2,transform:"rotate(-90deg)"}}><circle cx="34" cy="34" r="30" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="3"/><circle cx="34" cy="34" r="30" fill="none" stroke="#fff" strokeWidth="3" strokeDasharray={2*Math.PI*30} strokeDashoffset={2*Math.PI*30*(1-prog)} strokeLinecap="round" style={{transition:"stroke-dashoffset .5s linear"}}/></svg>}</button>}
-      {open&&<div style={{width:"min(300px,calc(100vw-32px))",background:"#141416",border:"1px solid rgba(255,255,255,0.1)",borderRadius:20,padding:"18px 16px 14px",boxShadow:"0 8px 40px rgba(0,0,0,0.6)",animation:"scaleIn .2s ease"}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}><div style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"#888"}}>⏱ REST TIMER</div><button onClick={()=>setOpen(false)} style={{...B,background:"rgba(255,255,255,0.06)",borderRadius:8,color:"#888",width:32,height:32,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15}}>✕</button></div>
-        {exN&&<div style={{fontSize:11,color:accent,fontWeight:600,marginBottom:10,textAlign:"center",fontFamily:"Barlow,sans-serif",padding:"6px 8px",background:`${color}15`,borderRadius:8}}>{exN}</div>}
-        <div style={{display:"flex",justifyContent:"center",marginBottom:14,position:"relative"}}><svg width="130" height="130" style={{transform:"rotate(-90deg)"}}><circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6"/><circle cx="65" cy="65" r="54" fill="none" stroke={done?"#4CAF50":run?accent:"#555"} strokeWidth="6" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={total>0?C*(1-prog):C} style={{transition:"stroke-dashoffset .5s linear,stroke .3s ease"}}/></svg><div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}><div style={{fontSize:36,fontWeight:900,letterSpacing:-1,color:done?"#4CAF50":"#fff",animation:done?"pulse 1s ease infinite":"none"}}>{fmt(d)}</div><div style={{fontSize:10,color:"#555",fontWeight:600,letterSpacing:1}}>{done?"GO! 💪":run?"DESCANSANDO":total>0?"PAUSADO":"SELECIONE"}</div></div></div>
-        <div style={{display:"flex",justifyContent:"center",gap:10,marginBottom:14}}><button onClick={tog} disabled={total===0&&d===0} style={{...B,padding:"10px 26px",borderRadius:10,background:run?"rgba(255,255,255,0.08)":`linear-gradient(135deg,${color},${accent})`,color:"#fff",fontSize:13,fontWeight:700,letterSpacing:1,opacity:total===0?0.3:1,minHeight:44}}>{run?"⏸ PAUSAR":"▶ PLAY"}</button><button onClick={rst} style={{...B,padding:"10px 16px",borderRadius:10,background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.08)",color:"#888",fontSize:13,fontWeight:700,minHeight:44}}>↺</button></div>
-        <div style={{display:"flex",gap:6,justifyContent:"center",flexWrap:"wrap"}}>{PRESETS.map(p=><button key={p} onClick={()=>go(p)} style={{...B,padding:"8px 14px",borderRadius:8,minHeight:40,background:total===p&&(run||d>0)?`${color}30`:"rgba(255,255,255,0.04)",border:total===p&&(run||d>0)?`1px solid ${color}60`:"1px solid rgba(255,255,255,0.08)",color:total===p&&(run||d>0)?accent:"#aaa",fontSize:13,fontWeight:700,fontFamily:"Barlow,sans-serif"}}>{p<60?`${p}s`:`${p/60}min`}</button>)}</div>
-        <div style={{display:"flex",justifyContent:"center",gap:10,marginTop:10}}><button onClick={()=>adj(-15)} style={{...B,padding:"6px 16px",borderRadius:6,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)",color:"#666",fontSize:12,fontWeight:600,fontFamily:"Barlow,sans-serif",minHeight:36}}>-15s</button><button onClick={()=>adj(15)} style={{...B,padding:"6px 16px",borderRadius:6,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.06)",color:"#666",fontSize:12,fontWeight:600,fontFamily:"Barlow,sans-serif",minHeight:36}}>+15s</button></div>
-      </div>}
-    </div>
-  );
+function TimerFAB(_ref) {
+  var startSignal = _ref.startSignal,
+    color = _ref.color,
+    accent = _ref.accent;
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    open = _useState4[0],
+    setOpen = _useState4[1];
+  var _useState5 = useState(0),
+    _useState6 = _slicedToArray(_useState5, 2),
+    secs = _useState6[0],
+    setSecs = _useState6[1];
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    run = _useState8[0],
+    setRun = _useState8[1];
+  var _useState9 = useState(0),
+    _useState0 = _slicedToArray(_useState9, 2),
+    total = _useState0[0],
+    setTotal = _useState0[1];
+  var _useState1 = useState(""),
+    _useState10 = _slicedToArray(_useState1, 2),
+    exN = _useState10[0],
+    setExN = _useState10[1];
+  var eRef = useRef(null);
+  var rRef = useRef(null);
+  var aR = useRef(false);
+  useEffect(function () {
+    if (startSignal) {
+      eRef.current = Date.now() + startSignal.secs * 1000;
+      setSecs(startSignal.secs);
+      setTotal(startSignal.secs);
+      setExN(startSignal.name);
+      setRun(true);
+      aR.current = false;
+    }
+  }, [startSignal]);
+  var tick = useCallback(function () {
+    if (!eRef.current) return;
+    var r = (eRef.current - Date.now()) / 1000;
+    if (r <= 0) {
+      setSecs(0);
+      setRun(false);
+      eRef.current = null;
+      if (!aR.current) {
+        aR.current = true;
+        alertU();
+      }
+      return;
+    }
+    setSecs(r);
+    rRef.current = requestAnimationFrame(tick);
+  }, []);
+  useEffect(function () {
+    if (run && eRef.current) {
+      aR.current = false;
+      rRef.current = requestAnimationFrame(tick);
+    }
+    return function () {
+      if (rRef.current) cancelAnimationFrame(rRef.current);
+    };
+  }, [run, tick]);
+  useEffect(function () {
+    if (!run) return;
+    var iv = setInterval(function () {
+      if (!eRef.current) {
+        clearInterval(iv);
+        return;
+      }
+      var r = (eRef.current - Date.now()) / 1000;
+      if (r <= 0) {
+        setSecs(0);
+        setRun(false);
+        eRef.current = null;
+        if (!aR.current) {
+          aR.current = true;
+          alertU();
+        }
+        clearInterval(iv);
+      } else setSecs(r);
+    }, 500);
+    return function () {
+      return clearInterval(iv);
+    };
+  }, [run]);
+  useEffect(function () {
+    var h = function h() {
+      if (document.visibilityState === "visible" && eRef.current) {
+        var r = (eRef.current - Date.now()) / 1000;
+        if (r <= 0) {
+          setSecs(0);
+          setRun(false);
+          eRef.current = null;
+          if (!aR.current) {
+            aR.current = true;
+            alertU();
+          }
+        } else setSecs(r);
+      }
+    };
+    document.addEventListener("visibilitychange", h);
+    return function () {
+      return document.removeEventListener("visibilitychange", h);
+    };
+  }, []);
+  var go = function go(s) {
+    initA();
+    aR.current = false;
+    eRef.current = Date.now() + s * 1000;
+    setSecs(s);
+    setTotal(s);
+    setRun(true);
+    setExN("");
+  };
+  var tog = function tog() {
+    initA();
+    if (run) {
+      var r = eRef.current ? (eRef.current - Date.now()) / 1000 : secs;
+      eRef.current = null;
+      setSecs(Math.max(0, r));
+      setRun(false);
+    } else if (secs > 0) {
+      aR.current = false;
+      eRef.current = Date.now() + Math.ceil(secs) * 1000;
+      setRun(true);
+    }
+  };
+  var rst = function rst() {
+    eRef.current = null;
+    if (rRef.current) cancelAnimationFrame(rRef.current);
+    setRun(false);
+    setSecs(0);
+    setTotal(0);
+    setExN("");
+  };
+  var adj = function adj(d) {
+    initA();
+    var n = Math.max(0, Math.ceil(secs) + d);
+    if (n === 0) {
+      rst();
+      return;
+    }
+    setSecs(n);
+    setTotal(function (t) {
+      return Math.max(t, n);
+    });
+    aR.current = false;
+    eRef.current = Date.now() + n * 1000;
+    if (!run) setRun(true);
+  };
+  var d = Math.ceil(Math.max(0, secs)),
+    prog = total > 0 ? d / total : 0,
+    C = 2 * Math.PI * 54,
+    done = total > 0 && d === 0 && !run;
+  var B = {
+    WebkitTapHighlightColor: "transparent",
+    cursor: "pointer",
+    border: "none",
+    fontFamily: "Barlow Condensed,sans-serif"
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      bottom: 16,
+      right: 16,
+      zIndex: 1000,
+      fontFamily: "'Barlow Condensed',sans-serif"
+    }
+  }, !open && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      initA();
+      setOpen(true);
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      width: 64,
+      height: 64,
+      borderRadius: "50%",
+      background: run ? "linear-gradient(135deg,".concat(color, ",").concat(accent, ")") : done ? "linear-gradient(135deg,#4CAF50,#69F0AE)" : "linear-gradient(135deg,#222,#333)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: run ? "0 4px 24px ".concat(color, "60") : "0 4px 20px rgba(0,0,0,0.5)",
+      animation: done ? "pulse 1s ease infinite" : "none",
+      position: "relative"
+    })
+  }, run || d > 0 ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 17,
+      fontWeight: 800,
+      color: "#fff"
+    }
+  }, fmt(d)) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 24
+    }
+  }, "\u23F1"), run && /*#__PURE__*/React.createElement("svg", {
+    width: "68",
+    height: "68",
+    style: {
+      position: "absolute",
+      top: -2,
+      left: -2,
+      transform: "rotate(-90deg)"
+    }
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "34",
+    cy: "34",
+    r: "30",
+    fill: "none",
+    stroke: "rgba(255,255,255,0.2)",
+    strokeWidth: "3"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "34",
+    cy: "34",
+    r: "30",
+    fill: "none",
+    stroke: "#fff",
+    strokeWidth: "3",
+    strokeDasharray: 2 * Math.PI * 30,
+    strokeDashoffset: 2 * Math.PI * 30 * (1 - prog),
+    strokeLinecap: "round",
+    style: {
+      transition: "stroke-dashoffset .5s linear"
+    }
+  }))), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: "min(300px,calc(100vw-32px))",
+      background: "#141416",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: 20,
+      padding: "18px 16px 14px",
+      boxShadow: "0 8px 40px rgba(0,0,0,0.6)",
+      animation: "scaleIn .2s ease"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      letterSpacing: 2,
+      color: "#888"
+    }
+  }, "\u23F1 REST TIMER"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setOpen(false);
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      background: "rgba(255,255,255,0.06)",
+      borderRadius: 8,
+      color: "#888",
+      width: 32,
+      height: 32,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 15
+    })
+  }, "\u2715")), exN && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: accent,
+      fontWeight: 600,
+      marginBottom: 10,
+      textAlign: "center",
+      fontFamily: "Barlow,sans-serif",
+      padding: "6px 8px",
+      background: "".concat(color, "15"),
+      borderRadius: 8
+    }
+  }, exN), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      marginBottom: 14,
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "130",
+    height: "130",
+    style: {
+      transform: "rotate(-90deg)"
+    }
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "65",
+    cy: "65",
+    r: "54",
+    fill: "none",
+    stroke: "rgba(255,255,255,0.06)",
+    strokeWidth: "6"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "65",
+    cy: "65",
+    r: "54",
+    fill: "none",
+    stroke: done ? "#4CAF50" : run ? accent : "#555",
+    strokeWidth: "6",
+    strokeLinecap: "round",
+    strokeDasharray: C,
+    strokeDashoffset: total > 0 ? C * (1 - prog) : C,
+    style: {
+      transition: "stroke-dashoffset .5s linear,stroke .3s ease"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 36,
+      fontWeight: 900,
+      letterSpacing: -1,
+      color: done ? "#4CAF50" : "#fff",
+      animation: done ? "pulse 1s ease infinite" : "none"
+    }
+  }, fmt(d)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#555",
+      fontWeight: 600,
+      letterSpacing: 1
+    }
+  }, done ? "GO! 💪" : run ? "DESCANSANDO" : total > 0 ? "PAUSADO" : "SELECIONE"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      gap: 10,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: tog,
+    disabled: total === 0 && d === 0,
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      padding: "10px 26px",
+      borderRadius: 10,
+      background: run ? "rgba(255,255,255,0.08)" : "linear-gradient(135deg,".concat(color, ",").concat(accent, ")"),
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      letterSpacing: 1,
+      opacity: total === 0 ? 0.3 : 1,
+      minHeight: 44
+    })
+  }, run ? "⏸ PAUSAR" : "▶ PLAY"), /*#__PURE__*/React.createElement("button", {
+    onClick: rst,
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      padding: "10px 16px",
+      borderRadius: 10,
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      color: "#888",
+      fontSize: 13,
+      fontWeight: 700,
+      minHeight: 44
+    })
+  }, "\u21BA")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      justifyContent: "center",
+      flexWrap: "wrap"
+    }
+  }, PRESETS.map(function (p) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: p,
+      onClick: function onClick() {
+        return go(p);
+      },
+      style: _objectSpread(_objectSpread({}, B), {}, {
+        padding: "8px 14px",
+        borderRadius: 8,
+        minHeight: 40,
+        background: total === p && (run || d > 0) ? "".concat(color, "30") : "rgba(255,255,255,0.04)",
+        border: total === p && (run || d > 0) ? "1px solid ".concat(color, "60") : "1px solid rgba(255,255,255,0.08)",
+        color: total === p && (run || d > 0) ? accent : "#aaa",
+        fontSize: 13,
+        fontWeight: 700,
+        fontFamily: "Barlow,sans-serif"
+      })
+    }, p < 60 ? "".concat(p, "s") : "".concat(p / 60, "min"));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      gap: 10,
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return adj(-15);
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      padding: "6px 16px",
+      borderRadius: 6,
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid rgba(255,255,255,0.06)",
+      color: "#666",
+      fontSize: 12,
+      fontWeight: 600,
+      fontFamily: "Barlow,sans-serif",
+      minHeight: 36
+    })
+  }, "-15s"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return adj(15);
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      padding: "6px 16px",
+      borderRadius: 6,
+      background: "rgba(255,255,255,0.03)",
+      border: "1px solid rgba(255,255,255,0.06)",
+      color: "#666",
+      fontSize: 12,
+      fontWeight: 600,
+      fontFamily: "Barlow,sans-serif",
+      minHeight: 36
+    })
+  }, "+15s"))));
 }
 
 // ═══════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════
 function App() {
-  const [day, setDay] = useState(0);
-  const [pid, setPid] = useState("alpha");
-  const [weights, setWeights] = useState({}); // { "alpha-0-1": { v: "80kg", d: "15/06", history: [{v:"75kg",d:"08/06"}] } }
-  const [archive, setArchive] = useState([]);
-  const [showArc, setShowArc] = useState(false);
-  const [arcView, setArcView] = useState(null);
-  const [showP, setShowP] = useState(false);
-  const [sig, setSig] = useState(null);
-  const [loaded, setLoaded] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [checks, setChecks] = useState({}); // { "alpha-0-1": [true,false,false] }
-  const [wakeLock, toggleWake] = useWakeLock();
-
-  const prog = P.find(p => p.id === pid) || P[0];
-  const wo = prog.days[day];
-  const allEx = [...wo.exercises, ...abPool[day]];
-
-  useEffect(() => { (async () => { setWeights(await ld("cbum-w2", {})); setArchive(await ld("cbum-arc", [])); setPid(await ld("cbum-ap", "alpha")); setLoaded(true); })(); }, []);
-
-  const saveRef = useRef(null);
-  const persist = useCallback(nw => { setWeights(nw); if (saveRef.current) clearTimeout(saveRef.current); saveRef.current = setTimeout(() => { setSaving(true); sv("cbum-w2", nw).then(() => setTimeout(() => setSaving(false), 500)); }, 800); }, []);
-
-  const today = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
-
-  const updateW = (di, ei, val) => {
-    const k = `${pid}-${di}-${ei}`;
-    const old = weights[k];
-    const hist = (old && old.history) || [];
+  var _useState11 = useState(0),
+    _useState12 = _slicedToArray(_useState11, 2),
+    day = _useState12[0],
+    setDay = _useState12[1];
+  var _useState13 = useState("alpha"),
+    _useState14 = _slicedToArray(_useState13, 2),
+    pid = _useState14[0],
+    setPid = _useState14[1];
+  var _useState15 = useState({}),
+    _useState16 = _slicedToArray(_useState15, 2),
+    weights = _useState16[0],
+    setWeights = _useState16[1]; // { "alpha-0-1": { v: "80kg", d: "15/06", history: [{v:"75kg",d:"08/06"}] } }
+  var _useState17 = useState([]),
+    _useState18 = _slicedToArray(_useState17, 2),
+    archive = _useState18[0],
+    setArchive = _useState18[1];
+  var _useState19 = useState(false),
+    _useState20 = _slicedToArray(_useState19, 2),
+    showArc = _useState20[0],
+    setShowArc = _useState20[1];
+  var _useState21 = useState(null),
+    _useState22 = _slicedToArray(_useState21, 2),
+    arcView = _useState22[0],
+    setArcView = _useState22[1];
+  var _useState23 = useState(false),
+    _useState24 = _slicedToArray(_useState23, 2),
+    showP = _useState24[0],
+    setShowP = _useState24[1];
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    sig = _useState26[0],
+    setSig = _useState26[1];
+  var _useState27 = useState(false),
+    _useState28 = _slicedToArray(_useState27, 2),
+    loaded = _useState28[0],
+    setLoaded = _useState28[1];
+  var _useState29 = useState(false),
+    _useState30 = _slicedToArray(_useState29, 2),
+    saving = _useState30[0],
+    setSaving = _useState30[1];
+  var _useState31 = useState({}),
+    _useState32 = _slicedToArray(_useState31, 2),
+    checks = _useState32[0],
+    setChecks = _useState32[1]; // { "alpha-0-1": [true,false,false] }
+  var _useWakeLock = useWakeLock(),
+    _useWakeLock2 = _slicedToArray(_useWakeLock, 2),
+    wakeLock = _useWakeLock2[0],
+    toggleWake = _useWakeLock2[1];
+  var prog = P.find(function (p) {
+    return p.id === pid;
+  }) || P[0];
+  var wo = prog.days[day];
+  var allEx = [].concat(_toConsumableArray(wo.exercises), _toConsumableArray(abPool[day]));
+  useEffect(function () {
+    _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      var _t4, _t5, _t6;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _t4 = setWeights;
+            _context3.n = 1;
+            return ld("cbum-w2", {});
+          case 1:
+            _t4(_context3.v);
+            _t5 = setArchive;
+            _context3.n = 2;
+            return ld("cbum-arc", []);
+          case 2:
+            _t5(_context3.v);
+            _t6 = setPid;
+            _context3.n = 3;
+            return ld("cbum-ap", "alpha");
+          case 3:
+            _t6(_context3.v);
+            setLoaded(true);
+          case 4:
+            return _context3.a(2);
+        }
+      }, _callee3);
+    }))();
+  }, []);
+  var saveRef = useRef(null);
+  var persist = useCallback(function (nw) {
+    setWeights(nw);
+    if (saveRef.current) clearTimeout(saveRef.current);
+    saveRef.current = setTimeout(function () {
+      setSaving(true);
+      sv("cbum-w2", nw).then(function () {
+        return setTimeout(function () {
+          return setSaving(false);
+        }, 500);
+      });
+    }, 800);
+  }, []);
+  var today = new Date().toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit"
+  });
+  var updateW = function updateW(di, ei, val) {
+    var k = "".concat(pid, "-").concat(di, "-").concat(ei);
+    var old = weights[k];
+    var hist = old && old.history || [];
     // If there's an existing value from a different date, push to history
-    if ((old && old.v) && old.v !== val && old.d !== today) {
-      hist.unshift({ v: old.v, d: old.d });
+    if (old && old.v && old.v !== val && old.d !== today) {
+      hist.unshift({
+        v: old.v,
+        d: old.d
+      });
       if (hist.length > 5) hist.pop();
     }
-    persist({ ...weights, [k]: { v: val, d: today, history: hist } });
+    persist(_objectSpread(_objectSpread({}, weights), {}, _defineProperty({}, k, {
+      v: val,
+      d: today,
+      history: hist
+    })));
   };
-
-  const getW = (di, ei) => weights[`${pid}-${di}-${ei}`] || null;
-
-  const switchProg = async (nid) => {
-    const cw = {};
-    Object.entries(weights).forEach(([k, v]) => { if (k.startsWith(pid + "-") && (v && v.v)) cw[k] = v; });
-    if (Object.keys(cw).length > 0) {
-      const entry = { pid, name: prog.name, date: new Date().toLocaleDateString("pt-BR"), weights: cw };
-      const na = [entry, ...archive].slice(0, 20);
-      setArchive(na); await sv("cbum-arc", na);
+  var getW = function getW(di, ei) {
+    return weights["".concat(pid, "-").concat(di, "-").concat(ei)] || null;
+  };
+  var switchProg = /*#__PURE__*/function () {
+    var _switchProg = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(nid) {
+      var cw, entry, na;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.n) {
+          case 0:
+            cw = {};
+            Object.entries(weights).forEach(function (_ref3) {
+              var _ref4 = _slicedToArray(_ref3, 2),
+                k = _ref4[0],
+                v = _ref4[1];
+              if (k.startsWith(pid + "-") && v && v.v) cw[k] = v;
+            });
+            if (!(Object.keys(cw).length > 0)) {
+              _context4.n = 1;
+              break;
+            }
+            entry = {
+              pid: pid,
+              name: prog.name,
+              date: new Date().toLocaleDateString("pt-BR"),
+              weights: cw
+            };
+            na = [entry].concat(_toConsumableArray(archive)).slice(0, 20);
+            setArchive(na);
+            _context4.n = 1;
+            return sv("cbum-arc", na);
+          case 1:
+            setPid(nid);
+            setDay(0);
+            setChecks({});
+            _context4.n = 2;
+            return sv("cbum-ap", nid);
+          case 2:
+            return _context4.a(2);
+        }
+      }, _callee4);
+    }));
+    function switchProg(_x5) {
+      return _switchProg.apply(this, arguments);
     }
-    setPid(nid); setDay(0); setChecks({}); await sv("cbum-ap", nid);
+    return switchProg;
+  }();
+  var getSetCount = function getSetCount(ex) {
+    var n = parseInt(ex.sets);
+    return isNaN(n) ? 3 : n;
   };
-
-  const getSetCount = ex => { const n = parseInt(ex.sets); return isNaN(n) ? 3 : n; };
-
-  const getChecks = (di, ei) => {
-    const k = `${pid}-${di}-${ei}`;
+  var getChecks = function getChecks(di, ei) {
+    var k = "".concat(pid, "-").concat(di, "-").concat(ei);
     return checks[k] || new Array(getSetCount(allEx[ei])).fill(false);
   };
-
-  const toggleSet = (di, ei, si) => {
-    const k = `${pid}-${di}-${ei}`;
-    const cur = [...(checks[k] || new Array(getSetCount(allEx[ei])).fill(false))];
+  var toggleSet = function toggleSet(di, ei, si) {
+    var k = "".concat(pid, "-").concat(di, "-").concat(ei);
+    var cur = _toConsumableArray(checks[k] || new Array(getSetCount(allEx[ei])).fill(false));
     cur[si] = !cur[si];
-    setChecks(prev => ({ ...prev, [k]: cur }));
+    setChecks(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, k, cur));
+    });
     // Auto-start timer if last set completed
     if (cur[si] && cur.every(Boolean)) {
-      const nextEx = allEx[ei + 1];
+      var nextEx = allEx[ei + 1];
       if (nextEx) {
         initA();
-        setSig({ secs: allEx[ei].rest, name: `Descanso → ${nextEx.name}`, ts: Date.now() });
+        setSig({
+          secs: allEx[ei].rest,
+          name: "Descanso \u2192 ".concat(nextEx.name),
+          ts: Date.now()
+        });
       }
     } else if (cur[si]) {
       // Start rest timer for current exercise
       initA();
-      setSig({ secs: allEx[ei].rest, name: allEx[ei].name, ts: Date.now() });
+      setSig({
+        secs: allEx[ei].rest,
+        name: allEx[ei].name,
+        ts: Date.now()
+      });
     }
   };
-
-  const trigS = useCallback((s, n) => { initA(); setSig({ secs: s, name: n, ts: Date.now() }); }, []);
-  const B = { WebkitTapHighlightColor: "transparent", cursor: "pointer", border: "none", fontFamily: "Barlow Condensed,sans-serif" };
-
-  if (!loaded) return <div style={{ minHeight: "100vh", background: "#0A0A0B", display: "flex", alignItems: "center", justifyContent: "center", color: "#555", fontFamily: "Barlow Condensed,sans-serif", fontSize: 18 }}>Carregando...</div>;
-
-  return (
-    <div style={{ minHeight: "100vh", background: "#0A0A0B", color: "#E8E6E3", fontFamily: "'Barlow Condensed',system-ui,sans-serif", position: "relative" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
-      <div style={{ position: "fixed", top: "-30%", right: "-20%", width: "70vw", height: "70vw", background: `radial-gradient(circle,${wo.color}12 0%,transparent 70%)`, transition: "background .8s ease", pointerEvents: "none", zIndex: 0 }} />
-      <TimerFAB startSignal={sig} color={wo.color} accent={wo.accent} />
-
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", padding: "24px 16px 100px" }}>
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 20 }}>
-          <div style={{ fontSize: 11, letterSpacing: 6, textTransform: "uppercase", color: "#666", fontFamily: "Barlow,sans-serif", fontWeight: 500, marginBottom: 8 }}>Programa de Treino Inspirado em</div>
-          <h1 style={{ fontSize: "clamp(34px,8vw,60px)", fontWeight: 900, margin: 0, letterSpacing: -2, lineHeight: 0.95, background: `linear-gradient(135deg,#fff 0%,${wo.accent} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>CHRIS BUMSTEAD</h1>
-          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 10, flexWrap: "wrap" }}>
-            {saving && <span style={{ fontSize: 10, color: "#4CAF50", fontFamily: "Barlow,sans-serif", padding: "4px 10px", background: "rgba(76,175,80,0.1)", borderRadius: 6 }}>✓ Salvando...</span>}
-            <button onClick={() => { initA(); toggleWake(); }} style={{ ...B, fontSize: 10, padding: "4px 12px", borderRadius: 6, background: wakeLock ? "rgba(76,175,80,0.15)" : "rgba(255,255,255,0.04)", border: wakeLock ? "1px solid rgba(76,175,80,0.4)" : "1px solid rgba(255,255,255,0.08)", color: wakeLock ? "#4CAF50" : "#888", fontFamily: "Barlow,sans-serif", fontWeight: 600, letterSpacing: 0.5 }}>
-              {wakeLock ? "☀️ TELA LIGADA" : "🌙 TELA AUTO"}
-            </button>
-          </div>
-        </div>
-
-        {/* Program Selector */}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 10, letterSpacing: 2, color: "#666", fontFamily: "Barlow,sans-serif", fontWeight: 600, marginBottom: 6 }}>TROCAR PROGRAMA</div>
-          <div style={{ display: "flex", gap: 6, overflowX: "auto", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
-            {P.map(p => <button key={p.id} onClick={() => { if (p.id !== pid) switchProg(p.id); }} style={{ ...B, flex: "0 0 auto", padding: "8px 12px", borderRadius: 10, background: pid === p.id ? `${wo.color}20` : "rgba(255,255,255,0.03)", border: pid === p.id ? `2px solid ${wo.color}60` : "2px solid rgba(255,255,255,0.06)", textAlign: "left", minWidth: 150 }}>
-              <div style={{ fontSize: 11, fontWeight: 800, color: pid === p.id ? "#fff" : "#888" }}>{p.name}</div>
-              <div style={{ fontSize: 9, color: pid === p.id ? wo.accent : "#555", fontFamily: "Barlow,sans-serif", marginTop: 1 }}>{p.desc}</div>
-            </button>)}
-          </div>
-        </div>
-
-        {/* Toggles */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-          <button onClick={() => setShowP(!showP)} style={{ ...B, display: "flex", alignItems: "center", gap: 5, padding: "8px 14px", background: showP ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#ccc", fontSize: 11, fontWeight: 500, letterSpacing: 1 }}>⚡ Princípios</button>
-          <button onClick={() => { setShowArc(!showArc); setArcView(null); }} style={{ ...B, display: "flex", alignItems: "center", gap: 5, padding: "8px 14px", background: showArc ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#ccc", fontSize: 11, fontWeight: 500, letterSpacing: 1 }}>📂 Histórico ({archive.length})</button>
-        </div>
-
-        {showP && <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 8, marginBottom: 20, animation: "fadeIn .4s ease" }}>
-          {[["📈","Double Progression","Range de reps → peso fixo → aumente no topo."],["🧠","Mind-Muscle","Sinta cada rep. Qualidade > quantidade."],["⏱️","Excêntrica 3s","Fase negativa controlada = crescimento."],["🔄","Drop/Tri-Sets","Intensificadores no último set."],["📐","Full ROM","Amplitude total. Stretch máximo."],["🛡️","Joint-Friendly","Belt squat > barbell squat."]].map(([i,t,d],idx) => <div key={idx} style={{ padding: "10px 12px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10 }}><div style={{ fontSize: 16, marginBottom: 3 }}>{i}</div><div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{t}</div><div style={{ fontSize: 10, color: "#999", lineHeight: 1.4, fontFamily: "Barlow,sans-serif" }}>{d}</div></div>)}
-        </div>}
-
-        {showArc && <div style={{ marginBottom: 20, animation: "fadeIn .3s ease" }}>
-          {archive.length === 0 ? <div style={{ padding: 16, textAlign: "center", color: "#555", fontSize: 12, fontFamily: "Barlow,sans-serif", background: "rgba(255,255,255,0.02)", borderRadius: 10, border: "1px dashed rgba(255,255,255,0.08)" }}>Troque de programa para arquivar o atual com as cargas.</div>
-          : <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            {archive.map((a, i) => <div key={i}><button onClick={() => setArcView(arcView === i ? null : i)} style={{ ...B, width: "100%", padding: "10px 12px", background: arcView === i ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}><div><div style={{ fontSize: 12, fontWeight: 700, color: "#ccc" }}>{a.name}</div><div style={{ fontSize: 10, color: "#666", fontFamily: "Barlow,sans-serif" }}>{a.date} · {Object.values(a.weights).filter(v => v && v.v).length} cargas</div></div><span style={{ color: "#555", transform: arcView === i ? "rotate(180deg)" : "rotate(0)", transition: ".3s", display: "inline-block" }}>▾</span></button>
-            {arcView === i && <div style={{ padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.06)", marginTop: 4 }}>
-              {Object.entries(a.weights).filter(([, v]) => (v && v.v)).map(([k, v]) => { const pts = k.split("-"); const di = parseInt(pts[1]); const ei = parseInt(pts[2]); const pr = P.find(x => x.id === pts[0]); const dd = (pr && pr.days[di]); const ae = dd ? [...dd.exercises, ...abPool[di]] : []; return <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", fontSize: 11, fontFamily: "Barlow,sans-serif" }}><span style={{ color: "#aaa" }}>D{di + 1} · {(ae[ei] && ae[ei].name) || `Ex ${ei + 1}`}</span><span style={{ color: "#FFD600", fontWeight: 700 }}>{v.v} <span style={{ color: "#555", fontWeight: 400 }}>({v.d})</span></span></div>; })}
-            </div>}</div>)}
-          </div>}
-        </div>}
-
-        {/* Day Selector */}
-        <div style={{ display: "flex", gap: 5, marginBottom: 20, overflowX: "auto", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
-          {prog.days.map((w, i) => {
-            const dayChecks = allEx.map((_, ei) => getChecks(i, ei));
-            const totalSets = dayChecks.reduce((a, c) => a + c.length, 0);
-            const doneSets = dayChecks.reduce((a, c) => a + c.filter(Boolean).length, 0);
-            return <button key={i} onClick={() => setDay(i)} style={{ ...B, flex: "0 0 auto", minWidth: 85, padding: "10px 8px", background: day === i ? `linear-gradient(135deg,${w.color}30,${w.color}10)` : "rgba(255,255,255,0.03)", border: day === i ? `2px solid ${w.color}80` : "2px solid rgba(255,255,255,0.06)", borderRadius: 12, textAlign: "center" }}>
-              <div style={{ fontSize: 9, letterSpacing: 2, color: day === i ? w.accent : "#666", fontWeight: 600, fontFamily: "Barlow,sans-serif" }}>DIA {w.day}</div>
-              <div style={{ fontSize: 10, fontWeight: 800, color: day === i ? "#fff" : "#888", marginTop: 2 }}>{w.title}</div>
-              <div style={{ fontSize: 13, marginTop: 1 }}>{w.emoji}</div>
-              {doneSets > 0 && <div style={{ fontSize: 8, color: doneSets === totalSets ? "#4CAF50" : wo.accent, fontFamily: "Barlow,sans-serif", fontWeight: 700, marginTop: 2 }}>{doneSets}/{totalSets}</div>}
-            </button>;
-          })}
-        </div>
-
-        {/* Workout Title */}
-        <h2 style={{ fontSize: "clamp(22px,5vw,38px)", fontWeight: 900, margin: "0 0 3px", letterSpacing: -1, color: "#fff" }}><span style={{ color: wo.color }}>{wo.emoji}</span> DIA {wo.day} — {wo.title}</h2>
-        <div style={{ fontSize: 11, color: "#888", fontFamily: "Barlow,sans-serif", marginBottom: 16 }}>{wo.subtitle} · {allEx.length} ex · Marque os sets para auto-timer</div>
-
-        {/* Exercises */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {allEx.map((ex, i) => {
-            const tc = TC[ex.tag] || { bg: "rgba(255,255,255,0.08)", text: "#aaa" };
-            const isAbs = i >= wo.exercises.length;
-            const wData = getW(day, i);
-            const ck = getChecks(day, i);
-            const setCount = getSetCount(ex);
-            const allDone = ck.every(Boolean);
-            const lastEntry = (wData && wData.history && wData.history[0]);
-
-            return (
-              <div key={`${pid}-${day}-${i}`} style={{ padding: "10px 12px", background: allDone ? "rgba(76,175,80,0.04)" : isAbs ? "rgba(255,183,77,0.03)" : "rgba(255,255,255,0.025)", border: allDone ? "1px solid rgba(76,175,80,0.15)" : isAbs ? "1px solid rgba(255,183,77,0.12)" : "1px solid rgba(255,255,255,0.06)", borderRadius: 12, borderLeft: `3px solid ${allDone ? "#4CAF50" : isAbs ? "#FFB74D60" : wo.color + "60"}`, animation: `slideIn .3s ease ${i * 0.03}s both`, opacity: allDone ? 0.7 : 1, transition: "opacity .3s ease" }}>
-                {/* Exercise name + tag */}
-                <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 3, flexWrap: "wrap" }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: "#555" }}>{String(i + 1).padStart(2, "0")}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: allDone ? "#4CAF50" : "#E8E6E3", textDecoration: allDone ? "line-through" : "none" }}>{ex.name}</span>
-                  <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: 1, padding: "2px 5px", borderRadius: 4, background: tc.bg, color: tc.text, textTransform: "uppercase", fontFamily: "Barlow,sans-serif" }}>{ex.tag}</span>
-                </div>
-
-                {/* Note */}
-                <div style={{ fontSize: 10, color: "#666", fontFamily: "Barlow,sans-serif", lineHeight: 1.4, paddingLeft: 20, marginBottom: 6 }}>{ex.note}</div>
-
-                {/* Sets checkboxes + weight + timer row */}
-                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", paddingLeft: 20 }}>
-                  {/* Set circles */}
-                  <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
-                    <span style={{ fontSize: 8, color: "#555", fontWeight: 600, fontFamily: "Barlow,sans-serif", letterSpacing: 1 }}>SETS</span>
-                    {Array.from({ length: setCount }).map((_, si) => (
-                      <button key={si} onClick={() => toggleSet(day, i, si)} style={{ ...B, width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, background: ck[si] ? (isAbs ? "#FFB74D" : wo.color) : "rgba(255,255,255,0.06)", color: ck[si] ? "#fff" : "#555", border: ck[si] ? "none" : "2px solid rgba(255,255,255,0.1)", transition: "all .2s ease", minHeight: 28 }}>
-                        {ck[si] ? "✓" : si + 1}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div style={{ width: 1, height: 22, background: "rgba(255,255,255,0.06)" }} />
-
-                  {/* Reps */}
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 7, color: "#555", letterSpacing: 1, fontWeight: 600, fontFamily: "Barlow,sans-serif" }}>REPS</div>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: "#ccc", fontFamily: "Barlow,sans-serif" }}>{ex.reps}</div>
-                  </div>
-
-                  <div style={{ width: 1, height: 22, background: "rgba(255,255,255,0.06)" }} />
-
-                  {/* Weight */}
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 7, color: "#FFD600", letterSpacing: 1, fontWeight: 700, fontFamily: "Barlow,sans-serif" }}>CARGA</div>
-                    <input type="text" inputMode="decimal" placeholder="—" value={(wData && wData.v) || ""} onChange={e => updateW(day, i, e.target.value)}
-                      style={{ width: 50, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6, color: "#FFD600", fontSize: 11, fontWeight: 700, fontFamily: "Barlow,sans-serif", textAlign: "center", padding: "3px 2px", outline: "none" }} />
-                    {lastEntry && <div style={{ fontSize: 8, color: "#666", fontFamily: "Barlow,sans-serif", marginTop: 1 }}>ant: {lastEntry.v} ({lastEntry.d})</div>}
-                  </div>
-
-                  {/* Timer */}
-                  <button onClick={() => trigS(ex.rest, ex.name)} style={{ ...B, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.04)", border: `1px solid ${isAbs ? "#FFB74D30" : wo.color + "30"}`, borderRadius: 8, padding: "4px 6px", minWidth: 36, minHeight: 36 }}>
-                    <div style={{ fontSize: 11 }}>⏱</div>
-                    <div style={{ fontSize: 8, color: isAbs ? "#FFB74D" : wo.accent, fontWeight: 700, fontFamily: "Barlow,sans-serif" }}>{ex.rest}s</div>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Summary */}
-        <div style={{ marginTop: 18, padding: "12px 14px", background: `linear-gradient(135deg,${wo.color}10,transparent)`, border: `1px solid ${wo.color}25`, borderRadius: 12, display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 10 }}>
-          {[["EXERCÍCIOS", allEx.length], ["TOTAL SETS", allEx.reduce((a, e) => a + getSetCount(e), 0)], ["CONCLUÍDOS", allEx.reduce((a, _, i) => a + getChecks(day, i).filter(Boolean).length, 0)]].map(([l, v], idx) => <div key={idx} style={{ textAlign: "center" }}><div style={{ fontSize: 9, color: "#666", letterSpacing: 2, fontWeight: 600, fontFamily: "Barlow,sans-serif" }}>{l}</div><div style={{ fontSize: 22, fontWeight: 900, color: idx === 2 ? "#4CAF50" : wo.accent }}>{v}</div></div>)}
-        </div>
-
-        <div style={{ marginTop: 16, padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.08)", borderRadius: 10, fontSize: 11, color: "#666", fontFamily: "Barlow,sans-serif", textAlign: "center", lineHeight: 1.6 }}>
-          <strong style={{ color: "#888" }}>DIA 7 — REST DAY</strong> · Recuperação · 7-9h sono · Proteína alta
-        </div>
-        <div style={{ marginTop: 20, textAlign: "center", fontSize: 10, color: "#444", fontFamily: "Barlow,sans-serif", lineHeight: 1.8 }}>
-          Baseado nos treinos públicos de Chris Bumstead · 3 programas · Cargas + evolução salvos
-        </div>
-      </div>
-
-      <style>{`
-        @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
-        @keyframes scaleIn{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        ::-webkit-scrollbar{display:none}
-        input::placeholder{color:#444}
-        input:focus{border-color:#FFD600!important;background:rgba(255,215,0,0.08)!important}
-      `}</style>
-    </div>
-  );
+  var trigS = useCallback(function (s, n) {
+    initA();
+    setSig({
+      secs: s,
+      name: n,
+      ts: Date.now()
+    });
+  }, []);
+  var B = {
+    WebkitTapHighlightColor: "transparent",
+    cursor: "pointer",
+    border: "none",
+    fontFamily: "Barlow Condensed,sans-serif"
+  };
+  if (!loaded) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "#0A0A0B",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "#555",
+      fontFamily: "Barlow Condensed,sans-serif",
+      fontSize: 18
+    }
+  }, "Carregando...");
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: "#0A0A0B",
+      color: "#E8E6E3",
+      fontFamily: "'Barlow Condensed',system-ui,sans-serif",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("link", {
+    href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap",
+    rel: "stylesheet"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      top: "-30%",
+      right: "-20%",
+      width: "70vw",
+      height: "70vw",
+      background: "radial-gradient(circle,".concat(wo.color, "12 0%,transparent 70%)"),
+      transition: "background .8s ease",
+      pointerEvents: "none",
+      zIndex: 0
+    }
+  }), /*#__PURE__*/React.createElement(TimerFAB, {
+    startSignal: sig,
+    color: wo.color,
+    accent: wo.accent
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      zIndex: 1,
+      maxWidth: 900,
+      margin: "0 auto",
+      padding: "24px 16px 100px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      letterSpacing: 6,
+      textTransform: "uppercase",
+      color: "#666",
+      fontFamily: "Barlow,sans-serif",
+      fontWeight: 500,
+      marginBottom: 8
+    }
+  }, "Programa de Treino Inspirado em"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: "clamp(34px,8vw,60px)",
+      fontWeight: 900,
+      margin: 0,
+      letterSpacing: -2,
+      lineHeight: 0.95,
+      background: "linear-gradient(135deg,#fff 0%,".concat(wo.accent, " 100%)"),
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent"
+    }
+  }, "CHRIS BUMSTEAD"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      gap: 10,
+      marginTop: 10,
+      flexWrap: "wrap"
+    }
+  }, saving && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: "#4CAF50",
+      fontFamily: "Barlow,sans-serif",
+      padding: "4px 10px",
+      background: "rgba(76,175,80,0.1)",
+      borderRadius: 6
+    }
+  }, "\u2713 Salvando..."), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      initA();
+      toggleWake();
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      fontSize: 10,
+      padding: "4px 12px",
+      borderRadius: 6,
+      background: wakeLock ? "rgba(76,175,80,0.15)" : "rgba(255,255,255,0.04)",
+      border: wakeLock ? "1px solid rgba(76,175,80,0.4)" : "1px solid rgba(255,255,255,0.08)",
+      color: wakeLock ? "#4CAF50" : "#888",
+      fontFamily: "Barlow,sans-serif",
+      fontWeight: 600,
+      letterSpacing: 0.5
+    })
+  }, wakeLock ? "☀️ TELA LIGADA" : "🌙 TELA AUTO"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      letterSpacing: 2,
+      color: "#666",
+      fontFamily: "Barlow,sans-serif",
+      fontWeight: 600,
+      marginBottom: 6
+    }
+  }, "TROCAR PROGRAMA"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      overflowX: "auto",
+      scrollbarWidth: "none",
+      WebkitOverflowScrolling: "touch"
+    }
+  }, P.map(function (p) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: p.id,
+      onClick: function onClick() {
+        if (p.id !== pid) switchProg(p.id);
+      },
+      style: _objectSpread(_objectSpread({}, B), {}, {
+        flex: "0 0 auto",
+        padding: "8px 12px",
+        borderRadius: 10,
+        background: pid === p.id ? "".concat(wo.color, "20") : "rgba(255,255,255,0.03)",
+        border: pid === p.id ? "2px solid ".concat(wo.color, "60") : "2px solid rgba(255,255,255,0.06)",
+        textAlign: "left",
+        minWidth: 150
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 800,
+        color: pid === p.id ? "#fff" : "#888"
+      }
+    }, p.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: pid === p.id ? wo.accent : "#555",
+        fontFamily: "Barlow,sans-serif",
+        marginTop: 1
+      }
+    }, p.desc));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginBottom: 16,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowP(!showP);
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      padding: "8px 14px",
+      background: showP ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: 8,
+      color: "#ccc",
+      fontSize: 11,
+      fontWeight: 500,
+      letterSpacing: 1
+    })
+  }, "\u26A1 Princ\xEDpios"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setShowArc(!showArc);
+      setArcView(null);
+    },
+    style: _objectSpread(_objectSpread({}, B), {}, {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      padding: "8px 14px",
+      background: showArc ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: 8,
+      color: "#ccc",
+      fontSize: 11,
+      fontWeight: 500,
+      letterSpacing: 1
+    })
+  }, "\uD83D\uDCC2 Hist\xF3rico (", archive.length, ")")), showP && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+      gap: 8,
+      marginBottom: 20,
+      animation: "fadeIn .4s ease"
+    }
+  }, [["📈", "Double Progression", "Range de reps → peso fixo → aumente no topo."], ["🧠", "Mind-Muscle", "Sinta cada rep. Qualidade > quantidade."], ["⏱️", "Excêntrica 3s", "Fase negativa controlada = crescimento."], ["🔄", "Drop/Tri-Sets", "Intensificadores no último set."], ["📐", "Full ROM", "Amplitude total. Stretch máximo."], ["🛡️", "Joint-Friendly", "Belt squat > barbell squat."]].map(function (_ref5, idx) {
+    var _ref6 = _slicedToArray(_ref5, 3),
+      i = _ref6[0],
+      t = _ref6[1],
+      d = _ref6[2];
+    return /*#__PURE__*/React.createElement("div", {
+      key: idx,
+      style: {
+        padding: "10px 12px",
+        background: "rgba(255,255,255,0.03)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 16,
+        marginBottom: 3
+      }
+    }, i), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: "#fff"
+      }
+    }, t), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#999",
+        lineHeight: 1.4,
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, d));
+  })), showArc && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 20,
+      animation: "fadeIn .3s ease"
+    }
+  }, archive.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 16,
+      textAlign: "center",
+      color: "#555",
+      fontSize: 12,
+      fontFamily: "Barlow,sans-serif",
+      background: "rgba(255,255,255,0.02)",
+      borderRadius: 10,
+      border: "1px dashed rgba(255,255,255,0.08)"
+    }
+  }, "Troque de programa para arquivar o atual com as cargas.") : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 5
+    }
+  }, archive.map(function (a, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setArcView(arcView === i ? null : i);
+      },
+      style: _objectSpread(_objectSpread({}, B), {}, {
+        width: "100%",
+        padding: "10px 12px",
+        background: arcView === i ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.02)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 10,
+        textAlign: "left",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+      })
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: "#ccc"
+      }
+    }, a.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#666",
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, a.date, " \xB7 ", Object.values(a.weights).filter(function (v) {
+      return v && v.v;
+    }).length, " cargas")), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#555",
+        transform: arcView === i ? "rotate(180deg)" : "rotate(0)",
+        transition: ".3s",
+        display: "inline-block"
+      }
+    }, "\u25BE")), arcView === i && /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: 12,
+        background: "rgba(255,255,255,0.03)",
+        borderRadius: 10,
+        border: "1px solid rgba(255,255,255,0.06)",
+        marginTop: 4
+      }
+    }, Object.entries(a.weights).filter(function (_ref7) {
+      var _ref8 = _slicedToArray(_ref7, 2),
+        v = _ref8[1];
+      return v && v.v;
+    }).map(function (_ref9) {
+      var _ref0 = _slicedToArray(_ref9, 2),
+        k = _ref0[0],
+        v = _ref0[1];
+      var pts = k.split("-");
+      var di = parseInt(pts[1]);
+      var ei = parseInt(pts[2]);
+      var pr = P.find(function (x) {
+        return x.id === pts[0];
+      });
+      var dd = pr && pr.days[di];
+      var ae = dd ? [].concat(_toConsumableArray(dd.exercises), _toConsumableArray(abPool[di])) : [];
+      return /*#__PURE__*/React.createElement("div", {
+        key: k,
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "3px 0",
+          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          fontSize: 11,
+          fontFamily: "Barlow,sans-serif"
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: "#aaa"
+        }
+      }, "D", di + 1, " \xB7 ", ae[ei] && ae[ei].name || "Ex ".concat(ei + 1)), /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: "#FFD600",
+          fontWeight: 700
+        }
+      }, v.v, " ", /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: "#555",
+          fontWeight: 400
+        }
+      }, "(", v.d, ")")));
+    })));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 5,
+      marginBottom: 20,
+      overflowX: "auto",
+      scrollbarWidth: "none",
+      WebkitOverflowScrolling: "touch"
+    }
+  }, prog.days.map(function (w, i) {
+    var dayChecks = allEx.map(function (_, ei) {
+      return getChecks(i, ei);
+    });
+    var totalSets = dayChecks.reduce(function (a, c) {
+      return a + c.length;
+    }, 0);
+    var doneSets = dayChecks.reduce(function (a, c) {
+      return a + c.filter(Boolean).length;
+    }, 0);
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: function onClick() {
+        return setDay(i);
+      },
+      style: _objectSpread(_objectSpread({}, B), {}, {
+        flex: "0 0 auto",
+        minWidth: 85,
+        padding: "10px 8px",
+        background: day === i ? "linear-gradient(135deg,".concat(w.color, "30,").concat(w.color, "10)") : "rgba(255,255,255,0.03)",
+        border: day === i ? "2px solid ".concat(w.color, "80") : "2px solid rgba(255,255,255,0.06)",
+        borderRadius: 12,
+        textAlign: "center"
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        letterSpacing: 2,
+        color: day === i ? w.accent : "#666",
+        fontWeight: 600,
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, "DIA ", w.day), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 800,
+        color: day === i ? "#fff" : "#888",
+        marginTop: 2
+      }
+    }, w.title), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        marginTop: 1
+      }
+    }, w.emoji), doneSets > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: doneSets === totalSets ? "#4CAF50" : wo.accent,
+        fontFamily: "Barlow,sans-serif",
+        fontWeight: 700,
+        marginTop: 2
+      }
+    }, doneSets, "/", totalSets));
+  })), /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: "clamp(22px,5vw,38px)",
+      fontWeight: 900,
+      margin: "0 0 3px",
+      letterSpacing: -1,
+      color: "#fff"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: wo.color
+    }
+  }, wo.emoji), " DIA ", wo.day, " \u2014 ", wo.title), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#888",
+      fontFamily: "Barlow,sans-serif",
+      marginBottom: 16
+    }
+  }, wo.subtitle, " \xB7 ", allEx.length, " ex \xB7 Marque os sets para auto-timer"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 6
+    }
+  }, allEx.map(function (ex, i) {
+    var tc = TC[ex.tag] || {
+      bg: "rgba(255,255,255,0.08)",
+      text: "#aaa"
+    };
+    var isAbs = i >= wo.exercises.length;
+    var wData = getW(day, i);
+    var ck = getChecks(day, i);
+    var setCount = getSetCount(ex);
+    var allDone = ck.every(Boolean);
+    var lastEntry = wData && wData.history && wData.history[0];
+    return /*#__PURE__*/React.createElement("div", {
+      key: "".concat(pid, "-").concat(day, "-").concat(i),
+      style: {
+        padding: "10px 12px",
+        background: allDone ? "rgba(76,175,80,0.04)" : isAbs ? "rgba(255,183,77,0.03)" : "rgba(255,255,255,0.025)",
+        border: allDone ? "1px solid rgba(76,175,80,0.15)" : isAbs ? "1px solid rgba(255,183,77,0.12)" : "1px solid rgba(255,255,255,0.06)",
+        borderRadius: 12,
+        borderLeft: "3px solid ".concat(allDone ? "#4CAF50" : isAbs ? "#FFB74D60" : wo.color + "60"),
+        animation: "slideIn .3s ease ".concat(i * 0.03, "s both"),
+        opacity: allDone ? 0.7 : 1,
+        transition: "opacity .3s ease"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        marginBottom: 3,
+        flexWrap: "wrap"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: "#555"
+      }
+    }, String(i + 1).padStart(2, "0")), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: allDone ? "#4CAF50" : "#E8E6E3",
+        textDecoration: allDone ? "line-through" : "none"
+      }
+    }, ex.name), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 7,
+        fontWeight: 700,
+        letterSpacing: 1,
+        padding: "2px 5px",
+        borderRadius: 4,
+        background: tc.bg,
+        color: tc.text,
+        textTransform: "uppercase",
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, ex.tag)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#666",
+        fontFamily: "Barlow,sans-serif",
+        lineHeight: 1.4,
+        paddingLeft: 20,
+        marginBottom: 6
+      }
+    }, ex.note), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        flexWrap: "wrap",
+        paddingLeft: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 5,
+        alignItems: "center"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 8,
+        color: "#555",
+        fontWeight: 600,
+        fontFamily: "Barlow,sans-serif",
+        letterSpacing: 1
+      }
+    }, "SETS"), Array.from({
+      length: setCount
+    }).map(function (_, si) {
+      return /*#__PURE__*/React.createElement("button", {
+        key: si,
+        onClick: function onClick() {
+          return toggleSet(day, i, si);
+        },
+        style: _objectSpread(_objectSpread({}, B), {}, {
+          width: 28,
+          height: 28,
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 12,
+          fontWeight: 800,
+          background: ck[si] ? isAbs ? "#FFB74D" : wo.color : "rgba(255,255,255,0.06)",
+          color: ck[si] ? "#fff" : "#555",
+          border: ck[si] ? "none" : "2px solid rgba(255,255,255,0.1)",
+          transition: "all .2s ease",
+          minHeight: 28
+        })
+      }, ck[si] ? "✓" : si + 1);
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 1,
+        height: 22,
+        background: "rgba(255,255,255,0.06)"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 7,
+        color: "#555",
+        letterSpacing: 1,
+        fontWeight: 600,
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, "REPS"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 600,
+        color: "#ccc",
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, ex.reps)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 1,
+        height: 22,
+        background: "rgba(255,255,255,0.06)"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 7,
+        color: "#FFD600",
+        letterSpacing: 1,
+        fontWeight: 700,
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, "CARGA"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      inputMode: "decimal",
+      placeholder: "\u2014",
+      value: wData && wData.v || "",
+      onChange: function onChange(e) {
+        return updateW(day, i, e.target.value);
+      },
+      style: {
+        width: 50,
+        background: "rgba(255,255,255,0.06)",
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: 6,
+        color: "#FFD600",
+        fontSize: 11,
+        fontWeight: 700,
+        fontFamily: "Barlow,sans-serif",
+        textAlign: "center",
+        padding: "3px 2px",
+        outline: "none"
+      }
+    }), lastEntry && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: "#666",
+        fontFamily: "Barlow,sans-serif",
+        marginTop: 1
+      }
+    }, "ant: ", lastEntry.v, " (", lastEntry.d, ")")), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return trigS(ex.rest, ex.name);
+      },
+      style: _objectSpread(_objectSpread({}, B), {}, {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid ".concat(isAbs ? "#FFB74D30" : wo.color + "30"),
+        borderRadius: 8,
+        padding: "4px 6px",
+        minWidth: 36,
+        minHeight: 36
+      })
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11
+      }
+    }, "\u23F1"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: isAbs ? "#FFB74D" : wo.accent,
+        fontWeight: 700,
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, ex.rest, "s"))));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      padding: "12px 14px",
+      background: "linear-gradient(135deg,".concat(wo.color, "10,transparent)"),
+      border: "1px solid ".concat(wo.color, "25"),
+      borderRadius: 12,
+      display: "flex",
+      justifyContent: "space-around",
+      flexWrap: "wrap",
+      gap: 10
+    }
+  }, [["EXERCÍCIOS", allEx.length], ["TOTAL SETS", allEx.reduce(function (a, e) {
+    return a + getSetCount(e);
+  }, 0)], ["CONCLUÍDOS", allEx.reduce(function (a, _, i) {
+    return a + getChecks(day, i).filter(Boolean).length;
+  }, 0)]].map(function (_ref1, idx) {
+    var _ref10 = _slicedToArray(_ref1, 2),
+      l = _ref10[0],
+      v = _ref10[1];
+    return /*#__PURE__*/React.createElement("div", {
+      key: idx,
+      style: {
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: "#666",
+        letterSpacing: 2,
+        fontWeight: 600,
+        fontFamily: "Barlow,sans-serif"
+      }
+    }, l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 22,
+        fontWeight: 900,
+        color: idx === 2 ? "#4CAF50" : wo.accent
+      }
+    }, v));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      padding: "10px 14px",
+      background: "rgba(255,255,255,0.02)",
+      border: "1px dashed rgba(255,255,255,0.08)",
+      borderRadius: 10,
+      fontSize: 11,
+      color: "#666",
+      fontFamily: "Barlow,sans-serif",
+      textAlign: "center",
+      lineHeight: 1.6
+    }
+  }, /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "#888"
+    }
+  }, "DIA 7 \u2014 REST DAY"), " \xB7 Recupera\xE7\xE3o \xB7 7-9h sono \xB7 Prote\xEDna alta"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 20,
+      textAlign: "center",
+      fontSize: 10,
+      color: "#444",
+      fontFamily: "Barlow,sans-serif",
+      lineHeight: 1.8
+    }
+  }, "Baseado nos treinos p\xFAblicos de Chris Bumstead \xB7 3 programas \xB7 Cargas + evolu\xE7\xE3o salvos")), /*#__PURE__*/React.createElement("style", null, "\n        @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}\n        @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}\n        @keyframes scaleIn{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}\n        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}\n        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}\n        ::-webkit-scrollbar{display:none}\n        input::placeholder{color:#444}\n        input:focus{border-color:#FFD600!important;background:rgba(255,215,0,0.08)!important}\n      "));
 }
 
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
+    var root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(React.createElement(App));
   </script>
 </body>
