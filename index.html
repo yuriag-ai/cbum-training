@@ -24,7 +24,7 @@
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel" data-type="module">
+  <script type="text/babel">
     const { useState, useEffect, useRef, useCallback } = React;
 
 // ═══════════════════════════════════════════════
@@ -223,25 +223,25 @@ const fmt = s => { const x = Math.max(0, Math.ceil(s)); return `${Math.floor(x/6
 // ═══════════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════════
-async function ld(k, fb) { try { const r = localStorage.getItem(k); return r !== null ? JSON.parse(r) : fb; } catch { return fb; } }
+async function ld(k, fb) { try { const r = localStorage.getItem(k); return r !== null ? JSON.parse(r) : fb; } catch(e) { return fb; } }
 async function sv(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) { console.error(e); } }
 
 // ═══════════════════════════════════════════════
 // AUDIO & WAKE LOCK
 // ═══════════════════════════════════════════════
 const aRef = { ctx: null };
-function initA() { if (!aRef.ctx) try { aRef.ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch {} if (aRef.ctx?.state === "suspended") aRef.ctx.resume().catch(()=>{}); }
-function beep() { const c = aRef.ctx; if (!c) return; try { if (c.state==="suspended") c.resume(); const t=(f,s,d)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type="sine";g.gain.setValueAtTime(0.4,c.currentTime+s);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+s+d);o.start(c.currentTime+s);o.stop(c.currentTime+s+d);}; t(880,0,0.12);t(880,0.2,0.12);t(1174,0.42,0.3); } catch {} }
+function initA() { if (!aRef.ctx) try { aRef.ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {} if ((aRef.ctx && aRef.ctx.state) === "suspended") aRef.ctx.resume().catch(()=>{}); }
+function beep() { const c = aRef.ctx; if (!c) return; try { if (c.state==="suspended") c.resume(); const t=(f,s,d)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type="sine";g.gain.setValueAtTime(0.4,c.currentTime+s);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+s+d);o.start(c.currentTime+s);o.stop(c.currentTime+s+d);}; t(880,0,0.12);t(880,0.2,0.12);t(1174,0.42,0.3); } catch(e) {} }
 function alertU() { beep(); if (navigator.vibrate) navigator.vibrate([200,100,200,100,300]); }
 
 function useWakeLock() {
   const [active, setActive] = useState(false);
   const lockRef = useRef(null);
   const toggle = async () => {
-    if (active && lockRef.current) { try { await lockRef.current.release(); } catch {} lockRef.current = null; setActive(false); return; }
-    try { if ("wakeLock" in navigator) { lockRef.current = await navigator.wakeLock.request("screen"); lockRef.current.addEventListener("release", () => { setActive(false); lockRef.current = null; }); setActive(true); } } catch {}
+    if (active && lockRef.current) { try { await lockRef.current.release(); } catch(e) {} lockRef.current = null; setActive(false); return; }
+    try { if ("wakeLock" in navigator) { lockRef.current = await navigator.wakeLock.request("screen"); lockRef.current.addEventListener("release", () => { setActive(false); lockRef.current = null; }); setActive(true); } } catch(e) {}
   };
-  useEffect(() => { const h = async () => { if (document.visibilityState === "visible" && active && !lockRef.current) { try { lockRef.current = await navigator.wakeLock.request("screen"); } catch {} } }; document.addEventListener("visibilitychange", h); return () => document.removeEventListener("visibilitychange", h); }, [active]);
+  useEffect(() => { const h = async () => { if (document.visibilityState === "visible" && active && !lockRef.current) { try { lockRef.current = await navigator.wakeLock.request("screen"); } catch(e) {} } }; document.addEventListener("visibilitychange", h); return () => document.removeEventListener("visibilitychange", h); }, [active]);
   return [active, toggle];
 }
 
@@ -308,9 +308,9 @@ function App() {
   const updateW = (di, ei, val) => {
     const k = `${pid}-${di}-${ei}`;
     const old = weights[k];
-    const hist = old?.history || [];
+    const hist = (old && old.history) || [];
     // If there's an existing value from a different date, push to history
-    if (old?.v && old.v !== val && old.d !== today) {
+    if ((old && old.v) && old.v !== val && old.d !== today) {
       hist.unshift({ v: old.v, d: old.d });
       if (hist.length > 5) hist.pop();
     }
@@ -321,7 +321,7 @@ function App() {
 
   const switchProg = async (nid) => {
     const cw = {};
-    Object.entries(weights).forEach(([k, v]) => { if (k.startsWith(pid + "-") && v?.v) cw[k] = v; });
+    Object.entries(weights).forEach(([k, v]) => { if (k.startsWith(pid + "-") && (v && v.v)) cw[k] = v; });
     if (Object.keys(cw).length > 0) {
       const entry = { pid, name: prog.name, date: new Date().toLocaleDateString("pt-BR"), weights: cw };
       const na = [entry, ...archive].slice(0, 20);
@@ -404,9 +404,9 @@ function App() {
         {showArc && <div style={{ marginBottom: 20, animation: "fadeIn .3s ease" }}>
           {archive.length === 0 ? <div style={{ padding: 16, textAlign: "center", color: "#555", fontSize: 12, fontFamily: "Barlow,sans-serif", background: "rgba(255,255,255,0.02)", borderRadius: 10, border: "1px dashed rgba(255,255,255,0.08)" }}>Troque de programa para arquivar o atual com as cargas.</div>
           : <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            {archive.map((a, i) => <div key={i}><button onClick={() => setArcView(arcView === i ? null : i)} style={{ ...B, width: "100%", padding: "10px 12px", background: arcView === i ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}><div><div style={{ fontSize: 12, fontWeight: 700, color: "#ccc" }}>{a.name}</div><div style={{ fontSize: 10, color: "#666", fontFamily: "Barlow,sans-serif" }}>{a.date} · {Object.values(a.weights).filter(v => v?.v).length} cargas</div></div><span style={{ color: "#555", transform: arcView === i ? "rotate(180deg)" : "rotate(0)", transition: ".3s", display: "inline-block" }}>▾</span></button>
+            {archive.map((a, i) => <div key={i}><button onClick={() => setArcView(arcView === i ? null : i)} style={{ ...B, width: "100%", padding: "10px 12px", background: arcView === i ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}><div><div style={{ fontSize: 12, fontWeight: 700, color: "#ccc" }}>{a.name}</div><div style={{ fontSize: 10, color: "#666", fontFamily: "Barlow,sans-serif" }}>{a.date} · {Object.values(a.weights).filter(v => v && v.v).length} cargas</div></div><span style={{ color: "#555", transform: arcView === i ? "rotate(180deg)" : "rotate(0)", transition: ".3s", display: "inline-block" }}>▾</span></button>
             {arcView === i && <div style={{ padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.06)", marginTop: 4 }}>
-              {Object.entries(a.weights).filter(([, v]) => v?.v).map(([k, v]) => { const pts = k.split("-"); const di = parseInt(pts[1]); const ei = parseInt(pts[2]); const pr = P.find(x => x.id === pts[0]); const dd = pr?.days[di]; const ae = dd ? [...dd.exercises, ...abPool[di]] : []; return <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", fontSize: 11, fontFamily: "Barlow,sans-serif" }}><span style={{ color: "#aaa" }}>D{di + 1} · {ae[ei]?.name || `Ex ${ei + 1}`}</span><span style={{ color: "#FFD600", fontWeight: 700 }}>{v.v} <span style={{ color: "#555", fontWeight: 400 }}>({v.d})</span></span></div>; })}
+              {Object.entries(a.weights).filter(([, v]) => (v && v.v)).map(([k, v]) => { const pts = k.split("-"); const di = parseInt(pts[1]); const ei = parseInt(pts[2]); const pr = P.find(x => x.id === pts[0]); const dd = (pr && pr.days[di]); const ae = dd ? [...dd.exercises, ...abPool[di]] : []; return <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", fontSize: 11, fontFamily: "Barlow,sans-serif" }}><span style={{ color: "#aaa" }}>D{di + 1} · {(ae[ei] && ae[ei].name) || `Ex ${ei + 1}`}</span><span style={{ color: "#FFD600", fontWeight: 700 }}>{v.v} <span style={{ color: "#555", fontWeight: 400 }}>({v.d})</span></span></div>; })}
             </div>}</div>)}
           </div>}
         </div>}
@@ -439,7 +439,7 @@ function App() {
             const ck = getChecks(day, i);
             const setCount = getSetCount(ex);
             const allDone = ck.every(Boolean);
-            const lastEntry = wData?.history?.[0];
+            const lastEntry = (wData && wData.history && wData.history[0]);
 
             return (
               <div key={`${pid}-${day}-${i}`} style={{ padding: "10px 12px", background: allDone ? "rgba(76,175,80,0.04)" : isAbs ? "rgba(255,183,77,0.03)" : "rgba(255,255,255,0.025)", border: allDone ? "1px solid rgba(76,175,80,0.15)" : isAbs ? "1px solid rgba(255,183,77,0.12)" : "1px solid rgba(255,255,255,0.06)", borderRadius: 12, borderLeft: `3px solid ${allDone ? "#4CAF50" : isAbs ? "#FFB74D60" : wo.color + "60"}`, animation: `slideIn .3s ease ${i * 0.03}s both`, opacity: allDone ? 0.7 : 1, transition: "opacity .3s ease" }}>
@@ -478,7 +478,7 @@ function App() {
                   {/* Weight */}
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: 7, color: "#FFD600", letterSpacing: 1, fontWeight: 700, fontFamily: "Barlow,sans-serif" }}>CARGA</div>
-                    <input type="text" inputMode="decimal" placeholder="—" value={wData?.v || ""} onChange={e => updateW(day, i, e.target.value)}
+                    <input type="text" inputMode="decimal" placeholder="—" value={(wData && wData.v) || ""} onChange={e => updateW(day, i, e.target.value)}
                       style={{ width: 50, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6, color: "#FFD600", fontSize: 11, fontWeight: 700, fontFamily: "Barlow,sans-serif", textAlign: "center", padding: "3px 2px", outline: "none" }} />
                     {lastEntry && <div style={{ fontSize: 8, color: "#666", fontFamily: "Barlow,sans-serif", marginTop: 1 }}>ant: {lastEntry.v} ({lastEntry.d})</div>}
                   </div>
