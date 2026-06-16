@@ -9,7 +9,7 @@
   <title>CBum Training Program — 6-Day Split</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
   <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ0J1bSBUcmFpbmluZyIsInNob3J0X25hbWUiOiJDQnVtIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBBMEEwQiIsInRoZW1lX2NvbG9yIjoiIzBBMEEwQiJ9">
-  <meta name="description" content="Programa de treino de 6 dias inspirado em Chris Bumstead, 6x Mr. Olympia Classic Physique. Timer, tracking de cargas, 3 programas.">
+  <meta name="description" content="Programa de treino de 6 dias inspirado em Chris Bumstead. Timer, tracking de cargas, 3 programas.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -223,8 +223,8 @@ const fmt = s => { const x = Math.max(0, Math.ceil(s)); return `${Math.floor(x/6
 // ═══════════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════════
-async function ld(k, fb) { try { const r = await window.storage.get(k); return r ? JSON.parse(r.value) : fb; } catch { return fb; } }
-async function sv(k, v) { try { await window.storage.set(k, JSON.stringify(v)); } catch(e) { console.error(e); } }
+async function ld(k, fb) { try { const r = localStorage.getItem(k); return r !== null ? JSON.parse(r) : fb; } catch { return fb; } }
+async function sv(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) { console.error(e); } }
 
 // ═══════════════════════════════════════════════
 // AUDIO & WAKE LOCK
